@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: cms
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url:
+    username: ADMIN
+    password:
+    hikari:
+      connection-test-query: SELECT sysdate FROM dual
+  jpa:
+    database-platform:  org.hibernate.dialect.OracleDialect
+    hibernate:
+      ddl-auto: create-drop #create update none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show-sql: true
+        format_sql: true
+    defer-datasource-initialization: true
+
+jwt:
+  token:
+    issuer: toon_service
+    clientSecret: Rel3Bjce2MajBo09qgkNgYaTuzvJe8iwnBFhsDS5
+    expirySeconds: 7200000
+    header: Authorization
+    bearer: Bearer
+
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  token-validity-in-seconds: 86400
