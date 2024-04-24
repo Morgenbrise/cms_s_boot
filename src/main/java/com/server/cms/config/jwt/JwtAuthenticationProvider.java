@@ -1,6 +1,6 @@
 package com.server.cms.config.jwt;
 
-import com.server.cms.model.response.SUser;
+import com.server.cms.data.response.SUser;
 import com.server.cms.service.UserService;
 import com.server.cms.type.Role;
 import lombok.RequiredArgsConstructor;

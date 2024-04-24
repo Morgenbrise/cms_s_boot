@@ -1,6 +1,6 @@
 package com.server.cms.controller;
 
-import com.server.cms.model.request.QLogin;
+import com.server.cms.data.request.QLogin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

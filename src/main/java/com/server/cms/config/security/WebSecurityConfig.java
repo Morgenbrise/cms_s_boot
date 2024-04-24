@@ -29,6 +29,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -67,9 +68,10 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD)
                                                     .permitAll()
-                                                    .requestMatchers("/api/**").authenticated()
-                                                    .requestMatchers("/swagger-ui").permitAll()
+                                                    .requestMatchers("/swagger-ui/**", "/swagger-resources/**","/v3/api-docs/**", "/api-docs/**").permitAll()
                                                     .requestMatchers("/auth/**").permitAll()
+//                                                    .requestMatchers("/api/**").authenticated()
+                                                    .anyRequest().authenticated()
                 )
 
                 .exceptionHandling(authentication ->

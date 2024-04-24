@@ -1,4 +1,4 @@
-package com.server.cms.domain;
+package com.server.cms.domain.oracle;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -40,6 +40,10 @@ public class CpUser {
 
     @Column(name = "NM_CP")
     private String cpNm;
+
+    public static CpUser create() {
+        return new CpUser(null, "test1", "11234", "테스터", "01012341234", "test@naver.com", "1");
+    }
 
     public void checkLoginPassword(String pw, PasswordEncoder encoder) {
         if(!encoder.matches(this.pw, pw)) {

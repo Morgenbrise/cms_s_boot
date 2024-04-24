@@ -1,7 +1,7 @@
-package com.server.cms.model.response;
+package com.server.cms.data.response;
 
 import com.server.cms.config.jwt.JWT;
-import com.server.cms.domain.CpUser;
+import com.server.cms.domain.oracle.CpUser;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

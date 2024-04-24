@@ -1,6 +1,6 @@
 package com.server.cms.config.jwt;
 
-import com.server.cms.model.response.SUser;
+import com.server.cms.data.response.SUser;
 
 public class AuthenticationResult {
 

@@ -1,16 +1,19 @@
 spring:
+  profiles:
+    active: local
   application:
     name: cms
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url:
+    url: jdbc:oracle:thin:@sj_high?TNS_ADMIN=/Users/chosejong/Desktop/자료실/Oracle/database/Wallet_sj
     username: ADMIN
-    password:
+    password: Chosejong86!
     hikari:
       connection-test-query: SELECT sysdate FROM dual
   jpa:
     database-platform:  org.hibernate.dialect.OracleDialect
     hibernate:
+      default_batch_fetch_size: 1000
       ddl-auto: create-drop #create update none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
@@ -30,3 +33,19 @@ jwt:
 
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
   token-validity-in-seconds: 86400
+
+springdoc:
+  version: '0.0.1'
+  api-docs:
+    path: /api-docs
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: true
+    doc-expansion: none
+  paths-to-match:
+    - /api/**

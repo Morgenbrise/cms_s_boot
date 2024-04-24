@@ -27,7 +27,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.kafka:spring-kafka'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
-	implementation 'io.springfox:springfox-swagger2:3.0.0'
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	// https://mvnrepository.com/artifact/com.auth0/java-jwt
@@ -38,7 +37,8 @@ dependencies {
 	implementation 'com.google.guava:guava:33.1.0-jre'
 
 	// Swagger
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
 
@@ -54,8 +54,12 @@ dependencies {
 	implementation group: 'com.oracle.database.security', name: 'oraclepki'
 	implementation group: 'com.oracle.database.security', name: 'osdt_core'
 	implementation group: 'com.oracle.database.security', name: 'osdt_cert'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 }
 
 tasks.named('test') {
+	useJUnitPlatform()
+}
+test {
 	useJUnitPlatform()
 }

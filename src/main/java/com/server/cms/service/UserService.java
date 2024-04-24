@@ -1,8 +1,8 @@
 package com.server.cms.service;
 
-import com.server.cms.domain.CpUser;
-import com.server.cms.model.response.SUser;
-import com.server.cms.repository.UserRepository;
+import com.server.cms.domain.oracle.CpUser;
+import com.server.cms.data.response.SUser;
+import com.server.cms.repository.oracle.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
         if(isBlank(username)) {
             throw new NullPointerException("사용자 아이디가 존재하지 않습니다.");
         }
-        
+
         return null;
     }
 

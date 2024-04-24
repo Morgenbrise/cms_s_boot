@@ -1,4 +1,4 @@
-package com.server.cms.model.request;
+package com.server.cms.data.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
