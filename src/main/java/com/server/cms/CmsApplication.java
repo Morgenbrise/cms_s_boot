@@ -12,9 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 
-@EnableScheduling
 @EnableJpaAuditing
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 @EnableAspectJAutoProxy
 public class CmsApplication {
 
@@ -32,8 +31,5 @@ public class CmsApplication {
 		return new ForwardedHeaderFilter();
 	}
 
-//	@Bean
-//	public JpaProperties jpaProperties() {
-//		return new JpaProperties();
-//	}
+
 }

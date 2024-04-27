@@ -1,8 +1,8 @@
 package com.server.cms.service;
 
-import com.server.cms.domain.oracle.CpUser;
+import com.server.cms.domain.CpUser;
 import com.server.cms.data.response.SUser;
-import com.server.cms.repository.oracle.UserRepository;
+import com.server.cms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

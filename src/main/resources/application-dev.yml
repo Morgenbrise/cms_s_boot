@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+database:
+  oracle:
+    databasePlatform: org.hibernate.dialect.OracleDialect
+    ddlAuto: create-drop
+    driverClassName: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@sj_high?TNS_ADMIN=/Users/chosejong/Desktop/자료실/Oracle/database/Wallet_sj
+    username: ADMIN
+    password: Chosejong86!

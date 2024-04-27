@@ -1,4 +1,4 @@
-package com.server.cms.domain.oracle;
+package com.server.cms.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

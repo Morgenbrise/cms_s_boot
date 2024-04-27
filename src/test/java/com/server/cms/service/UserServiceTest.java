@@ -1,7 +1,7 @@
 package com.server.cms.service;
 
-import com.server.cms.domain.oracle.CpUser;
-import com.server.cms.repository.oracle.UserRepository;
+import com.server.cms.domain.CpUser;
+import com.server.cms.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
