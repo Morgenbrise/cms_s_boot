@@ -11,7 +11,7 @@ spring:
 #    hikari:
 #      connection-test-query: SELECT sysdate FROM dual
   jpa:
-    database-platform:  org.hibernate.dialect.OracleDialect
+#    database-platform:  org.hibernate.dialect.OracleDialect
     hibernate:
       default_batch_fetch_size: 1000
       ddl-auto: create-drop #create update none
