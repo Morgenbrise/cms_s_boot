@@ -5,9 +5,9 @@ spring:
     name: cms
 #  datasource:
 #    driver-class-name: oracle.jdbc.OracleDriver
-#    url: jdbc:oracle:thin:@sj_high?TNS_ADMIN=/Users/chosejong/Desktop/자료실/Oracle/database/Wallet_sj
+#    url:
 #    username: ADMIN
-#    password: Chosejong86!
+#    password:
 #    hikari:
 #      connection-test-query: SELECT sysdate FROM dual
   jpa:
