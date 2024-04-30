@@ -3,18 +3,20 @@ spring:
     active: dev
   application:
     name: cms
-#  datasource:
-#    driver-class-name: oracle.jdbc.OracleDriver
-#    url:
-#    username: ADMIN
-#    password:
-#    hikari:
-#      connection-test-query: SELECT sysdate FROM dual
+  datasource:
+    oracle:
+      databasePlatform: org.hibernate.dialect.OracleDialect
+      driverClassName: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@sj_high?TNS_ADMIN=/Users/chosejong/Desktop/자료실/Oracle/database/Wallet_sj
+      username: ADMIN
+      password: Chosejong86!
+      hikari:
+        connection-test-query: SELECT sysdate FROM dual
   jpa:
 #    database-platform:  org.hibernate.dialect.OracleDialect
     hibernate:
       default_batch_fetch_size: 1000
-      ddl-auto: create-drop #create update none
+      ddl-auto: none #create update none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:

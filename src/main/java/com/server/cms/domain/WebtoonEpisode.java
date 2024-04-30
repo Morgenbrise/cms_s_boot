@@ -37,6 +37,9 @@ public class WebtoonEpisode {
     @Column(name = "PRICE")
     private Integer price;
 
+    @Column(name = "PATH")
+    private String path;
+
     @Column(name = "DT_OPEN")
     private LocalDateTime openDt;
 

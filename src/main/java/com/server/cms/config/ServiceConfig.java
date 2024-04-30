@@ -4,6 +4,7 @@ import com.server.cms.config.jwt.JWT;
 import com.server.cms.config.utiles.MessageUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,4 +41,5 @@ public class ServiceConfig {
     public MessageUtils messageUtils() {
         return MessageUtils.getInstance();
     }
+
 }
