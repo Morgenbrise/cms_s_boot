@@ -1,8 +1,8 @@
 package com.server.cms.data.response;
 
-import com.querydsl.core.types.dsl.*;
-
 import com.querydsl.core.types.ConstructorExpression;
+import com.server.cms.domain.webtoon.Webtoon;
+
 import javax.annotation.processing.Generated;
 
 /**
@@ -13,8 +13,8 @@ public class QSWebtoon_Item extends ConstructorExpression<SWebtoon.Item> {
 
     private static final long serialVersionUID = -1712505542L;
 
-    public QSWebtoon_Item(com.querydsl.core.types.Expression<? extends com.server.cms.domain.Webtoon> entity) {
-        super(SWebtoon.Item.class, new Class<?>[]{com.server.cms.domain.Webtoon.class}, entity);
+    public QSWebtoon_Item(com.querydsl.core.types.Expression<? extends Webtoon> entity) {
+        super(SWebtoon.Item.class, new Class<?>[]{Webtoon.class}, entity);
     }
 
 }

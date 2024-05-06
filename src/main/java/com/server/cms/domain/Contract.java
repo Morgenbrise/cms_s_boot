@@ -1,5 +1,6 @@
 package com.server.cms.domain;
 
+import com.server.cms.domain.webtoon.Webtoon;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

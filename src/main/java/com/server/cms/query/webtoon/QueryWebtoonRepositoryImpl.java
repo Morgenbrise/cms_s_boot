@@ -1,28 +1,23 @@
 package com.server.cms.query.webtoon;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.server.cms.config.querydsl.proxy.OracleQueryDSLRepositorySupport;
-import com.server.cms.data.request.QWebtoonData;
+import com.server.cms.data.request.wevtoon.QWebtoonData;
 import com.server.cms.data.response.QSWebtoon_Item;
-import com.server.cms.data.response.SWebtoon;
-import com.server.cms.domain.QContract;
-import com.server.cms.domain.QWebtoon;
-import com.server.cms.domain.Webtoon;
+import com.server.cms.domain.webtoon.Webtoon;
 import com.server.cms.framework.common.CustomPageRequest;
 import com.server.cms.framework.common.ResponsePageDTO;
 import com.server.cms.framework.error.UserNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import static com.querydsl.core.types.dsl.Expressions.stringTemplate;
 import static com.server.cms.domain.QContract.contract;
 import static com.server.cms.domain.QWebtoon.webtoon;
 
+@Slf4j
 public class QueryWebtoonRepositoryImpl extends OracleQueryDSLRepositorySupport implements QueryWebtoonRepository {
 
     public QueryWebtoonRepositoryImpl() {
@@ -35,6 +30,7 @@ public class QueryWebtoonRepositoryImpl extends OracleQueryDSLRepositorySupport 
             throw new UserNotFoundException();
         }
 
+        log.info("QUERY_WEBTOONS ----> {}", param.toString());
         PageRequest pageable = CustomPageRequest.form(param.getPage(), param.getOffset()).of();
         Page<Webtoon> page = applyPagination(pageable, query ->
                         query

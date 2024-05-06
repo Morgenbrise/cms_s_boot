@@ -2,7 +2,7 @@ package com.server.cms.data.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryProjection;
-import com.server.cms.domain.Webtoon;
+import com.server.cms.domain.webtoon.Webtoon;
 import com.server.cms.framework.common.CodeMapperValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 

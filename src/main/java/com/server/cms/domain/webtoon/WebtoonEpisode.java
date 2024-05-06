@@ -1,5 +1,7 @@
-package com.server.cms.domain;
+package com.server.cms.domain.webtoon;
 
+import com.server.cms.framework.converter.EnumConverter.ContentStatusEnum;
+import com.server.cms.type.ContentStatusType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -36,6 +38,10 @@ public class WebtoonEpisode {
 
     @Column(name = "PRICE")
     private Integer price;
+
+    @Column(name = "STATUS")
+    @Convert(converter = ContentStatusEnum.class)
+    private ContentStatusType status;
 
     @Column(name = "PATH")
     private String path;

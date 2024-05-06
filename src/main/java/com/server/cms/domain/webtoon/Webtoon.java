@@ -1,6 +1,6 @@
-package com.server.cms.domain;
+package com.server.cms.domain.webtoon;
 
-import com.server.cms.framework.converter.EnumConverter;
+import com.server.cms.data.request.wevtoon.QWebtoonData;
 import com.server.cms.framework.converter.EnumConverter.YnEnum;
 import com.server.cms.type.YnType;
 import jakarta.persistence.*;
@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.server.cms.framework.date.LocalDateUtil.getConvertDateTime;
 
 @Entity
 @Table(name = "TB_WEBTOON")
@@ -49,4 +51,17 @@ public class Webtoon {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "webtoon")
     private List<WebtoonEpisode> episode = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "webtoon")
+    private TqWeboon cpWebtoon;
+
+
+
+    public void update(QWebtoonData.Modify param) {
+        this.title = param.getTitle();
+        this.author = param.getAuthor();
+        this.remark = param.getRemark();
+        this.openDt = getConvertDateTime(param.getOpenDt());
+        this.closeDt= getConvertDateTime(param.getCloseDd() + " 00:00:00");
+        this.adultYn = YnType.of(param.getAdultYn());
+    }
 }

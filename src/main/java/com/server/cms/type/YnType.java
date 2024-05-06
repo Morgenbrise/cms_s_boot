@@ -23,7 +23,7 @@ public enum YnType implements CodeType {
     }
 
     @JsonCreator
-    public static YnType findByType(String type) {
+    public static YnType of(String type) {
         if(isEmpty(type)) {
             return YnType.N;
         }
