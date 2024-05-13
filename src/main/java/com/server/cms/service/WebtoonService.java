@@ -38,6 +38,14 @@ public class WebtoonService {
         return webtoonRepository.findByWebtoons(userInd, param);
     }
 
+    public ResponsePageDTO findByCpWebtoons(Long userInd, Search param) {
+        if(userInd == null) {
+            throw new UserNotFoundException();
+        }
+
+        return tqWebtoonRepository.findByCpWebtoons(userInd, param);
+    }
+
     public SCpWebtoon.Item saveCpWebtoon(QTqWebtoonPostData.Save param) {
         Long userInd = currentUserInd();
         // TODO 이미지 등록 로직 필요

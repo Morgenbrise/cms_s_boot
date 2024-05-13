@@ -32,6 +32,20 @@ public class WebtoonController {
         return OK(item);
     }
 
+    @GetMapping(path = "/api/cp/webtoons")
+    public ApiResult getCpWebtoons(@QueryParam QWebtoonData.Search param) {
+        Long ind = SecurityUtils.currentUserInd();
+        if(log.isDebugEnabled()) {
+            log.info("getCpWetoons[{}] ----> {}", ind, param.toString());
+        }
+        if(ind == null) {
+            throw new UserNotFoundException();
+        }
+        ResponsePageDTO webtoons = webtoonService.findByCpWebtoons(ind, param);
+
+        return OK(webtoons);
+    }
+
     @Operation(summary = "웹툰 리스트 정보", description = "등록된 웹툰 리스트 정보를 보여줍니다.")
     @GetMapping(path = "/api/webtoons")
     public ApiResult getWebtoons(@QueryParam QWebtoonData.Search param) {
