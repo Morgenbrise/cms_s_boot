@@ -26,7 +26,7 @@ public class WebtoonController {
 
     private final WebtoonService webtoonService;
 
-    @PostMapping(path = "/api/cp/webtoon")
+    @PostMapping(path = "/api/sv/cp/webtoon")
     public ApiResult saveHisWebtoon(@Valid @RequestBody QTqWebtoonPostData.Save param) {
         SCpWebtoon.Item item = webtoonService.saveCpWebtoon(param);
         return OK(item);
@@ -44,6 +44,12 @@ public class WebtoonController {
         ResponsePageDTO webtoons = webtoonService.findByCpWebtoons(ind, param);
 
         return OK(webtoons);
+    }
+
+    @PatchMapping(path = "/api/mv/cp/webtoon")
+    public ApiResult modifyCpWebtoon(@Valid @RequestBody QTqWebtoonPostData.Modify param) {
+        SCpWebtoon.Item item = webtoonService.modifyCpWebtoon(param);
+        return OK(item);
     }
 
     @Operation(summary = "웹툰 리스트 정보", description = "등록된 웹툰 리스트 정보를 보여줍니다.")
