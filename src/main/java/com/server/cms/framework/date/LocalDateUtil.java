@@ -34,10 +34,14 @@ public class LocalDateUtil {
     }
 
     public static String getConvertDateTimeToString(LocalDateTime dateTime) {
+        return getConvertDateTimeToString(dateTime, "yyyy-MM-dd HH:mm:ss");
+    }
+
+    public static String getConvertDateTimeToString(LocalDateTime dateTime, String pattern) {
         if(dateTime == null) {
             return "";
         }
-        return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return dateTime.format(DateTimeFormatter.ofPattern(pattern));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.server.cms.domain;
 
+import com.server.cms.domain.webtoon.TqWebtoon;
 import com.server.cms.domain.webtoon.Webtoon;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,6 +19,9 @@ public class Contract {
     @Column(name = "IND")
     private Long ind;
 
+    @Column(name = "ID_UNIQUE")
+    private String bookCode;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CP_IND")
     private CpUser cpUser;
@@ -26,6 +30,14 @@ public class Contract {
     @JoinColumn(name = "CONTENT_IND")
     private Webtoon webtoon;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TQ_CONTENT_IND")
+    private TqWebtoon tqWebtoon;
+
     @Column(name = "TYPE")
     private String type;
+
+    public static Contract create() {
+        return new Contract();
+    }
 }

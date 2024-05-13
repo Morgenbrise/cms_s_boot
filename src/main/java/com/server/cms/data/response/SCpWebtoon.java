@@ -1,8 +1,9 @@
 package com.server.cms.data.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.server.cms.domain.webtoon.TqWeboon;
-import com.server.cms.framework.date.LocalDateUtil;
+import com.server.cms.domain.webtoon.TqWebtoon;
+import com.server.cms.domain.webtoon.Webtoon;
+import com.server.cms.framework.common.CodeMapperValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -35,12 +36,18 @@ public class SCpWebtoon {
         private String closeDt;
 
         @JsonProperty("ADULT_YN")
-        private String adultYn;
+        private CodeMapperValue adultYn;
 
-        public static Item form(TqWeboon entity) {
+        public static Item form(TqWebtoon entity) {
             return new Item(entity.getInd(), entity.getTitle(), entity.getRemark()
                             , entity.getAuthor(), getConvertDateTimeToString(entity.getOpenDt())
-                            , getConvertDateTimeToString(entity.getCloseDt()), entity.getAdultYn());
+                            , getConvertDateTimeToString(entity.getCloseDt()), entity.getAdultYn().getVo());
+        }
+
+        public static Item form(Webtoon entity) {
+            return new Item(entity.getInd(), entity.getTitle(), entity.getRemark()
+                    , entity.getAuthor(), getConvertDateTimeToString(entity.getOpenDt())
+                    , getConvertDateTimeToString(entity.getCloseDt()), entity.getAdultYn().getVo());
         }
 
         @Override

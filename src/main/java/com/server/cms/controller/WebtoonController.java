@@ -5,6 +5,7 @@ import com.server.cms.config.response.ApiResult;
 import com.server.cms.config.security.SecurityUtils;
 import com.server.cms.data.request.wevtoon.QTqWebtoonPostData;
 import com.server.cms.data.request.wevtoon.QWebtoonData;
+import com.server.cms.data.response.SCpWebtoon;
 import com.server.cms.framework.common.ResponsePageDTO;
 import com.server.cms.framework.error.UserNotFoundException;
 import com.server.cms.service.WebtoonService;
@@ -13,10 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.server.cms.config.response.ApiResult.OK;
 
@@ -28,9 +26,10 @@ public class WebtoonController {
 
     private final WebtoonService webtoonService;
 
-    public ApiResult saveHisWebtoon(@Valid @RequestBody QTqWebtoonPostData param) {
-
-        return OK(null);
+    @PostMapping(path = "/api/cp/webtoon")
+    public ApiResult saveHisWebtoon(@Valid @RequestBody QTqWebtoonPostData.Save param) {
+        SCpWebtoon.Item item = webtoonService.saveCpWebtoon(param);
+        return OK(item);
     }
 
     @Operation(summary = "웹툰 리스트 정보", description = "등록된 웹툰 리스트 정보를 보여줍니다.")

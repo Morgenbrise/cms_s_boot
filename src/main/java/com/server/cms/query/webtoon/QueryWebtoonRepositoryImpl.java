@@ -15,7 +15,7 @@ import org.springframework.data.domain.PageRequest;
 
 import static com.querydsl.core.types.dsl.Expressions.stringTemplate;
 import static com.server.cms.domain.QContract.contract;
-import static com.server.cms.domain.QWebtoon.webtoon;
+import static com.server.cms.domain.webtoon.QWebtoon.webtoon;
 
 @Slf4j
 public class QueryWebtoonRepositoryImpl extends OracleQueryDSLRepositorySupport implements QueryWebtoonRepository {

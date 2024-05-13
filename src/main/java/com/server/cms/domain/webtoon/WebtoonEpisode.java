@@ -2,6 +2,8 @@ package com.server.cms.domain.webtoon;
 
 import com.server.cms.framework.converter.EnumConverter.ContentStatusEnum;
 import com.server.cms.type.ContentStatusType;
+import com.server.cms.type.TqContentStatusType;
+import com.server.cms.type.YnType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,9 +25,6 @@ public class WebtoonEpisode {
 
     @Column(name = "TITLE")
     private String title;
-
-    @Column(name = "SUB_TITLE")
-    private String subTitle;
 
     @Column(name = "NO_CONTENT")
     private Integer no;
@@ -52,8 +51,15 @@ public class WebtoonEpisode {
     @Column(name = "DT_CLOSE")
     private LocalDateTime closeDt;
 
+    @Column(name = "YN_USE")
+    private YnType useYn;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IND_PARENT")
     private Webtoon webtoon;
+
+    public static WebtoonEpisode create() {
+        return new WebtoonEpisode();
+    }
 
 }

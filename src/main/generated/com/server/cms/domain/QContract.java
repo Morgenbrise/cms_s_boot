@@ -22,13 +22,17 @@ public class QContract extends EntityPathBase<Contract> {
 
     public static final QContract contract = new QContract("contract");
 
+    public final StringPath bookCode = createString("bookCode");
+
     public final QCpUser cpUser;
 
     public final NumberPath<Long> ind = createNumber("ind", Long.class);
 
+    public final com.server.cms.domain.webtoon.QTqWebtoon tqWebtoon;
+
     public final StringPath type = createString("type");
 
-    public final QWebtoon webtoon;
+    public final com.server.cms.domain.webtoon.QWebtoon webtoon;
 
     public QContract(String variable) {
         this(Contract.class, forVariable(variable), INITS);
@@ -49,7 +53,8 @@ public class QContract extends EntityPathBase<Contract> {
     public QContract(Class<? extends Contract> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.cpUser = inits.isInitialized("cpUser") ? new QCpUser(forProperty("cpUser")) : null;
-        this.webtoon = inits.isInitialized("webtoon") ? new QWebtoon(forProperty("webtoon")) : null;
+        this.tqWebtoon = inits.isInitialized("tqWebtoon") ? new com.server.cms.domain.webtoon.QTqWebtoon(forProperty("tqWebtoon"), inits.get("tqWebtoon")) : null;
+        this.webtoon = inits.isInitialized("webtoon") ? new com.server.cms.domain.webtoon.QWebtoon(forProperty("webtoon")) : null;
     }
 
 }

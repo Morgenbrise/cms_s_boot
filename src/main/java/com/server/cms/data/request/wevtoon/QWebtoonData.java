@@ -2,6 +2,7 @@ package com.server.cms.data.request.wevtoon;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.server.cms.framework.common.PageDTO;
+import com.server.cms.type.YnType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -49,7 +50,7 @@ public class QWebtoonData {
 
         @Schema(name = "YN_ADULT", description = "성인 여부", example = "성인/비성인", requiredMode = Schema.RequiredMode.REQUIRED)
         @JsonProperty("YN_ADULT")
-        private String adultYn;
+        private YnType adultYn;
 
         @Override
         public String toString() {

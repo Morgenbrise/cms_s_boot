@@ -1,4 +1,4 @@
-package com.server.cms.domain;
+package com.server.cms.domain.webtoon;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -8,8 +8,6 @@ import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
-import com.server.cms.domain.webtoon.Webtoon;
-import com.server.cms.domain.webtoon.WebtoonEpisode;
 
 
 /**
@@ -18,7 +16,7 @@ import com.server.cms.domain.webtoon.WebtoonEpisode;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QWebtoon extends EntityPathBase<Webtoon> {
 
-    private static final long serialVersionUID = 2043305287L;
+    private static final long serialVersionUID = -1657896633L;
 
     public static final QWebtoon webtoon = new QWebtoon("webtoon");
 
@@ -37,6 +35,8 @@ public class QWebtoon extends EntityPathBase<Webtoon> {
     public final DateTimePath<java.time.LocalDateTime> openDt = createDateTime("openDt", java.time.LocalDateTime.class);
 
     public final StringPath remark = createString("remark");
+
+    public final EnumPath<com.server.cms.type.ContentStatusType> status = createEnum("status", com.server.cms.type.ContentStatusType.class);
 
     public final StringPath title = createString("title");
 
