@@ -8,7 +8,6 @@ import lombok.*;
 @Entity
 @Table(name = "TB_CONTRACT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @SequenceGenerator(name = "CONTRACT_SEQ_GENERATOR", sequenceName = "CONTRACT_SEQ", initialValue = 1, allocationSize = 2)
 @Getter
 public class Contract {

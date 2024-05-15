@@ -69,7 +69,7 @@ public class WebtoonService {
                                 .build();
         Contract contract = contractRepository.save(tempContract);
 
-        return SCpWebtoon.Item.form(save);
+        return SCpWebtoon.Item.form(contract.getBookCode(), save);
     }
 
     public SCpWebtoon.Item saveWebtoon(String bookNum) {
@@ -80,7 +80,7 @@ public class WebtoonService {
         TqWebtoon tqWebtoon = tqWebtoonRepository.findByCpWebtoon(bookNum);
         Webtoon webtoon = webtoonRepository.save(Webtoon.create(tqWebtoon));
 
-        return SCpWebtoon.Item.form(webtoon);
+        return SCpWebtoon.Item.form(bookNum, webtoon);
     }
 
     public SCpWebtoon.Item modifyCpWebtoon(QTqWebtoonPostData.Modify param) {
@@ -93,7 +93,7 @@ public class WebtoonService {
         Webtoon webtoon = webtoonRepository.findByWebtoon(bookCode);
 
         tqWebtoon.update(param, webtoon);
-        return SCpWebtoon.Item.form(tqWebtoon);
+        return SCpWebtoon.Item.form(bookCode, tqWebtoon);
     }
 
     public void modifyWebtoon(Modify param) {

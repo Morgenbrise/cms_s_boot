@@ -17,8 +17,8 @@ public class SCpWebtoon {
     @Schema(description = "웹툰 정보")
     public static class Item {
 
-        @JsonProperty("IND")
-        private Long ind;
+        @JsonProperty("CD_BOOK")
+        private String bookCode;
 
         @JsonProperty("TITLE")
         private String title;
@@ -38,14 +38,14 @@ public class SCpWebtoon {
         @JsonProperty("ADULT_YN")
         private CodeMapperValue adultYn;
 
-        public static Item form(TqWebtoon entity) {
-            return new Item(entity.getInd(), entity.getTitle(), entity.getRemark()
+        public static Item form(String bookCode, TqWebtoon entity) {
+            return new Item(bookCode, entity.getTitle(), entity.getRemark()
                             , entity.getAuthor(), getConvertDateTimeToString(entity.getOpenDt())
                             , getConvertDateTimeToString(entity.getCloseDt()), entity.getAdultYn().getVo());
         }
 
-        public static Item form(Webtoon entity) {
-            return new Item(entity.getInd(), entity.getTitle(), entity.getRemark()
+        public static Item form(String bookCode, Webtoon entity) {
+            return new Item(bookCode, entity.getTitle(), entity.getRemark()
                     , entity.getAuthor(), getConvertDateTimeToString(entity.getOpenDt())
                     , getConvertDateTimeToString(entity.getCloseDt()), entity.getAdultYn().getVo());
         }
@@ -53,7 +53,7 @@ public class SCpWebtoon {
         @Override
         public String toString() {
             return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-                    .append("ind", ind)
+                    .append("bookCode", bookCode)
                     .append("title", title)
                     .append("remark", remark)
                     .append("author", author)
