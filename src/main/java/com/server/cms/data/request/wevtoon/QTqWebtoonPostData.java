@@ -12,10 +12,6 @@ public class QTqWebtoonPostData {
     @Getter
     private static class Base {
 
-        @Schema(name = "IND_PARENTS", description = "웹툰 IND", example = "1")
-        @JsonProperty("IND_PARENTS")
-        private Long parentsInd;
-
         @Schema(name = "TITLE", description = "웹툰 제목", example = "나혼자...", requiredMode = Schema.RequiredMode.REQUIRED)
         @JsonProperty("TITLE")
         @NotEmpty(message = "컨텐츠 제목은 필수 입력 항목입니다.")
@@ -53,10 +49,9 @@ public class QTqWebtoonPostData {
     @Getter
     public static class Modify extends Base {
 
-        @Schema(name = "IND", description = "웹툰 인덱스", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
-        @JsonProperty("IND")
-        @NotNull(message = "")
-        private Long ind;
+        @Schema(name = "CD_BOOK", description = "작품 번호", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+        @JsonProperty("CD_BOOK")
+        private String bookCode;
 
     }
 

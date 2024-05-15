@@ -10,14 +10,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @AllArgsConstructor
 public enum TqContentStatusType implements CodeType {
 
-    REQUEST_APPLY("1000", "신청"),
+    REQUEST_APPLY("1000", "신청(미노출"),
     REQUEST_SERVICE_APPLY("1010", "신청중(서비스중)"),
-    REQUEST_MODIFY("1100", "수정"),
+    REQUEST_MODIFY("1100", "수정(미노출)"),
     REQUEST_SERVICE_MODIFY("1110", "수정(서비스중)"),
     REQUEST_DELETE("1200", "삭제 요청"),
     UNDER_REVIEW("2000", "검토중"),
     UNDER_SERVICE_REVIEW("2010", "검토중(서비스중)"),
-    REVIEW_COMPLETED("2100", "검토 완료"),
+    REVIEW_COMPLETED("2100", "검토 완료(미노출"),
     REVIEW_SERVICE_COMPLETED("2110", "검토 완료(서비스중)"),
     OPEN("3000", "서비스중"),
     COMPANION("3100", "반려"),

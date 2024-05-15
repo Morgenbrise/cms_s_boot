@@ -61,10 +61,6 @@ public class TqWebtoon {
     @Convert(converter = EnumConverter.YnEnum.class)
     private YnType showYn;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IND_WEBTOON")
-    private Webtoon webtoon;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "")
     private List<TqWebtoonEpisode> epi = new ArrayList<>();
 
@@ -92,7 +88,7 @@ public class TqWebtoon {
                     , param.getAuthor(), param.getOpenDt(), param.getCloseDd(), param.getAdultYn());
     }
 
-    public void update(QTqWebtoonPostData.Modify param) {
+    public void update(QTqWebtoonPostData.Modify param, Webtoon entity) {
         checkArgument(isNotEmpty(param.getTitle()), "작품명은 필수 입력항목입니다.");
         checkArgument(isNotEmpty(param.getAuthor()), "작가명은 필수 입력 항목입니다.");
         checkArgument(isNotEmpty(param.getOpenDt()), "오픈일자는 필수 입력 항목입니다.");
@@ -104,7 +100,7 @@ public class TqWebtoon {
         this.openDt = getConvertDateTime(param.getOpenDt());
         this.closeDt= getConvertDateTime(param.getCloseDd() + " 00:00:00");
         this.adultYn = YnType.of(param.getAdultYn());
-        this.status = webtoon != null ? REQUEST_SERVICE_MODIFY : REQUEST_MODIFY;
+        this.status = entity != null ? entity.getCpWebtoonStatus() : REQUEST_MODIFY;
     }
 
     public void delete() {

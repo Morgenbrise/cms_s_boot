@@ -4,13 +4,17 @@ import com.server.cms.data.request.wevtoon.QTqWebtoonPostData;
 import com.server.cms.data.request.wevtoon.QWebtoonData.Modify;
 import com.server.cms.data.request.wevtoon.QWebtoonData.Search;
 import com.server.cms.data.response.SCpWebtoon;
+import com.server.cms.domain.Contract;
+import com.server.cms.domain.CpUser;
 import com.server.cms.domain.webtoon.TqWebtoon;
 import com.server.cms.domain.webtoon.Webtoon;
 import com.server.cms.framework.common.ResponsePageDTO;
 import com.server.cms.framework.common.Unique;
 import com.server.cms.framework.error.ContentNotFoundException;
 import com.server.cms.framework.error.UserNotFoundException;
+import com.server.cms.repository.ContractRepository;
 import com.server.cms.repository.TqWebtoonRepository;
+import com.server.cms.repository.UserRepository;
 import com.server.cms.repository.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +31,10 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @RequiredArgsConstructor
 public class WebtoonService {
 
+    private final UserRepository userRepository;
     private final WebtoonRepository webtoonRepository;
     private final TqWebtoonRepository tqWebtoonRepository;
+    private final ContractRepository contractRepository;
 
     public ResponsePageDTO findByWebtoons(Long userInd, Search param) {
         if(userInd == null) {
@@ -48,10 +54,21 @@ public class WebtoonService {
 
     public SCpWebtoon.Item saveCpWebtoon(QTqWebtoonPostData.Save param) {
         Long userInd = currentUserInd();
-        // TODO 이미지 등록 로직 필요
+        Optional<CpUser> optional = userRepository.findById(userInd);
+        CpUser user = optional.orElseThrow(() -> new UserNotFoundException());
+
         String bookNum = "W_" + userInd + Unique.UniqueNumber();
-        TqWebtoon tqWebtoon = TqWebtoon.create(param);
-        TqWebtoon save = tqWebtoonRepository.save(tqWebtoon);
+        TqWebtoon tempWebtoon = TqWebtoon.create(param);
+        // TODO 이미지 등록 로직 필요
+        TqWebtoon save = tqWebtoonRepository.save(tempWebtoon);
+
+        Contract tempContract = new Contract.Builder()
+                                .bookCode(bookNum)
+                                .tqWebtoon(save)
+                                .cpUser(user)
+                                .build();
+        Contract contract = contractRepository.save(tempContract);
+
         return SCpWebtoon.Item.form(save);
     }
 
@@ -67,14 +84,15 @@ public class WebtoonService {
     }
 
     public SCpWebtoon.Item modifyCpWebtoon(QTqWebtoonPostData.Modify param) {
-        if(param.getInd() == null) {
+        String bookCode = param.getBookCode();
+        if(bookCode == null) {
             throw new IllegalArgumentException("작품 정보가 존재하지 않습니다.");
         }
 
-        Optional<TqWebtoon> optional = tqWebtoonRepository.findById(param.getInd());
-        TqWebtoon tqWebtoon = optional.orElseThrow(() -> new ContentNotFoundException("작품 정보가 존재하지 않습니다."));
+        TqWebtoon tqWebtoon = tqWebtoonRepository.findByCpWebtoon(bookCode);
+        Webtoon webtoon = webtoonRepository.findByWebtoon(bookCode);
 
-        tqWebtoon.update(param);
+        tqWebtoon.update(param, webtoon);
         return SCpWebtoon.Item.form(tqWebtoon);
     }
 

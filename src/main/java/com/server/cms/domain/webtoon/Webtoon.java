@@ -4,6 +4,7 @@ import com.server.cms.data.request.wevtoon.QWebtoonData;
 import com.server.cms.framework.converter.EnumConverter;
 import com.server.cms.framework.converter.EnumConverter.YnEnum;
 import com.server.cms.type.ContentStatusType;
+import com.server.cms.type.TqContentStatusType;
 import com.server.cms.type.YnType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -16,6 +17,9 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.server.cms.framework.date.LocalDateUtil.getConvertDateTime;
+import static com.server.cms.type.ContentStatusType.*;
+import static com.server.cms.type.ContentStatusType.OPEN;
+import static com.server.cms.type.TqContentStatusType.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Entity
@@ -74,7 +78,7 @@ public class Webtoon {
         this.openDt = openDt;
         this.closeDt = closeDt;
         this.adultYn = adultYn;
-        this.status = ContentStatusType.NO_OPEN;
+        this.status = NO_OPEN;
     }
 
     public static Webtoon create(TqWebtoon entity) {
@@ -99,5 +103,16 @@ public class Webtoon {
 
     public void delete() {
         this.status = ContentStatusType.DELETE;
+    }
+
+    public TqContentStatusType getCpWebtoonStatus() {
+        if(OPEN.equals(this.status)) {
+            return REQUEST_SERVICE_MODIFY;
+        }
+
+        if(NO_OPEN.equals(this.status)) {
+            return REQUEST_MODIFY;
+        }
+        return TqContentStatusType.DELETE;
     }
 }

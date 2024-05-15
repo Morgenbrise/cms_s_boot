@@ -47,6 +47,12 @@ public class QueryWebtoonRepositoryImpl extends OracleQueryDSLRepositorySupport 
         return ResponsePageDTO.createPageable(page);
     }
 
+    @Override
+    public Webtoon findByWebtoon(String bookCode) {
+
+        return null;
+    }
+
     private BooleanExpression likeTitle(String value) {
         return StringUtils.isNotEmpty(value)
                 ? stringTemplate("function('REGEXP_REPLACE',{0},{1},{2})", webtoon.title, "[^[:alnum:]]", "")
