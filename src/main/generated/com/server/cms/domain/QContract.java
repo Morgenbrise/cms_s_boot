@@ -53,7 +53,7 @@ public class QContract extends EntityPathBase<Contract> {
     public QContract(Class<? extends Contract> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.cpUser = inits.isInitialized("cpUser") ? new QCpUser(forProperty("cpUser")) : null;
-        this.tqWebtoon = inits.isInitialized("tqWebtoon") ? new com.server.cms.domain.webtoon.QTqWebtoon(forProperty("tqWebtoon"), inits.get("tqWebtoon")) : null;
+        this.tqWebtoon = inits.isInitialized("tqWebtoon") ? new com.server.cms.domain.webtoon.QTqWebtoon(forProperty("tqWebtoon")) : null;
         this.webtoon = inits.isInitialized("webtoon") ? new com.server.cms.domain.webtoon.QWebtoon(forProperty("webtoon")) : null;
     }
 

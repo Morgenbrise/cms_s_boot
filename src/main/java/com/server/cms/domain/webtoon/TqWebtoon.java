@@ -62,7 +62,7 @@ public class TqWebtoon {
     private YnType showYn;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "")
-    private List<TqWebtoonEpisode> epi = new ArrayList<>();
+    private List<TqWebtoonEpisode> episode = new ArrayList<>();
 
     private TqWebtoon(String title, String remark, String genre, String author
                 , String openDt, String closeDd, String adultYn) {

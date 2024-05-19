@@ -1,6 +1,7 @@
 package com.server.cms.query.webtoon;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.server.cms.config.querydsl.proxy.OracleQueryDSLRepositorySupport;
 import com.server.cms.data.request.wevtoon.QWebtoonData;
 import com.server.cms.domain.webtoon.QTqWebtoon;
@@ -33,12 +34,28 @@ public class QueryTqWebtoonRepositoryImpl extends OracleQueryDSLRepositorySuppor
             throw new ContentNotFoundException("도서코드를 정확하지 않습니다.");
         }
 
-        return select(tqWebtoon)
-                .from(tqWebtoon)
-                .join(tqWebtoon, contract.tqWebtoon)
-                .fetchJoin()
+        return getCpWebtoon()
                 .where(
                         contract.bookCode.eq(bookCode)
+                        , tqWebtoon.status.notIn(TqContentStatusType.DELETE)
+                )
+                .fetchOne();
+    }
+
+    @Override
+    public TqWebtoon findByCpWebtoon(Long userInd, String bookCode) {
+        if(userInd == null) {
+            throw new UserNotFoundException();
+        }
+
+        if(isNotEmpty(bookCode)) {
+            throw new ContentNotFoundException("도서코드를 정확하지 않습니다.");
+        }
+
+        return getCpWebtoon()
+                .where(
+                        contract.cpUser.ind.eq(userInd)
+                        , contract.bookCode.eq(bookCode)
                         , tqWebtoon.status.notIn(TqContentStatusType.DELETE)
                 )
                 .fetchOne();
@@ -52,10 +69,7 @@ public class QueryTqWebtoonRepositoryImpl extends OracleQueryDSLRepositorySuppor
 
         PageRequest pageable = CustomPageRequest.form(param.getPage(), param.getOffset()).of();
         Page<Object> page = applyPagination(pageable, query ->
-                select(tqWebtoon)
-                        .from(tqWebtoon)
-                        .join(tqWebtoon, contract.tqWebtoon)
-                        .fetchJoin()
+                getCpWebtoon()
                         .where(
                                 contract.cpUser.ind.eq(cpInd),
                                 likeTitle(param.getTitle())
@@ -63,6 +77,13 @@ public class QueryTqWebtoonRepositoryImpl extends OracleQueryDSLRepositorySuppor
         );
 
         return ResponsePageDTO.createPageable(page);
+    }
+
+    private JPAQuery<TqWebtoon> getCpWebtoon() {
+        return select(tqWebtoon)
+                .from(tqWebtoon)
+                .join(tqWebtoon, contract.tqWebtoon)
+                .fetchJoin();
     }
 
     private BooleanExpression likeTitle(String value) {

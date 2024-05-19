@@ -1,4 +1,4 @@
-package com.server.cms.data.response;
+package com.server.cms.data.response.webtoon;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.server.cms.domain.webtoon.TqWebtoon;

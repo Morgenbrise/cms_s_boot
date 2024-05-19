@@ -3,18 +3,24 @@ package com.server.cms.controller;
 import com.server.cms.config.annotation.QueryParam;
 import com.server.cms.config.response.ApiResult;
 import com.server.cms.config.security.SecurityUtils;
+import com.server.cms.data.request.wevtoon.QTqEpisodeData;
 import com.server.cms.data.request.wevtoon.QTqWebtoonPostData;
 import com.server.cms.data.request.wevtoon.QWebtoonData;
-import com.server.cms.data.response.SCpWebtoon;
+import com.server.cms.data.response.webtoon.SCpWebtoon;
 import com.server.cms.framework.common.ResponsePageDTO;
+import com.server.cms.framework.error.ContentNotFoundException;
 import com.server.cms.framework.error.UserNotFoundException;
+import com.server.cms.service.WebtoonEpisodeService;
 import com.server.cms.service.WebtoonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import javax.naming.NotContextException;
 
 import static com.server.cms.config.response.ApiResult.OK;
 
@@ -25,6 +31,7 @@ import static com.server.cms.config.response.ApiResult.OK;
 public class WebtoonController {
 
     private final WebtoonService webtoonService;
+    private final WebtoonEpisodeService episodeService;
 
     @PostMapping(path = "/api/sv/cp/webtoon")
     public ApiResult saveHisWebtoon(@Valid @RequestBody QTqWebtoonPostData.Save param) {
@@ -44,6 +51,15 @@ public class WebtoonController {
         ResponsePageDTO webtoons = webtoonService.findByCpWebtoons(ind, param);
 
         return OK(webtoons);
+    }
+
+    @GetMapping(path = "/api/cp/webtoon")
+    public ApiResult getCpWeboonInfo(@QueryParam QTqEpisodeData.Search param) {
+        if(StringUtils.isBlank(param.getBookCode())) {
+            throw new ContentNotFoundException("도서 코드를 확인할수 없습니다.");
+        }
+        ResponsePageDTO episodes = episodeService.findByWebtoonEpisodes(param);
+        return OK(episodes);
     }
 
     @PatchMapping(path = "/api/mv/cp/webtoon")

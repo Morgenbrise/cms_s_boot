@@ -1,30 +1,35 @@
 package com.server.cms.service;
 
+import com.server.cms.data.request.wevtoon.QTqEpisodeData;
 import com.server.cms.data.request.wevtoon.QTqWebtoonPostData;
 import com.server.cms.data.request.wevtoon.QWebtoonData.Modify;
 import com.server.cms.data.request.wevtoon.QWebtoonData.Search;
-import com.server.cms.data.response.SCpWebtoon;
+import com.server.cms.data.response.webtoon.SCpWebtoon;
+import com.server.cms.data.response.webtoon.SEpisode;
 import com.server.cms.domain.Contract;
 import com.server.cms.domain.CpUser;
 import com.server.cms.domain.webtoon.TqWebtoon;
+import com.server.cms.domain.webtoon.TqWebtoonEpisode;
 import com.server.cms.domain.webtoon.Webtoon;
+import com.server.cms.framework.common.CustomPageRequest;
 import com.server.cms.framework.common.ResponsePageDTO;
 import com.server.cms.framework.common.Unique;
 import com.server.cms.framework.error.ContentNotFoundException;
 import com.server.cms.framework.error.UserNotFoundException;
-import com.server.cms.repository.ContractRepository;
-import com.server.cms.repository.TqWebtoonRepository;
-import com.server.cms.repository.UserRepository;
-import com.server.cms.repository.WebtoonRepository;
+import com.server.cms.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.server.cms.config.security.SecurityUtils.currentUserInd;
 import static com.server.cms.framework.date.LocalDateUtil.getConvertDateTimeToString;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Slf4j
 @Service
@@ -52,6 +57,13 @@ public class WebtoonService {
         return tqWebtoonRepository.findByCpWebtoons(userInd, param);
     }
 
+    public SCpWebtoon.Item findByCpWebtoon(String bookCode) {
+        Long userInd = currentUserInd();
+
+        TqWebtoon webtoon = tqWebtoonRepository.findByCpWebtoon(userInd, bookCode);
+        return SCpWebtoon.Item.form(bookCode, webtoon);
+    }
+
     public SCpWebtoon.Item saveCpWebtoon(QTqWebtoonPostData.Save param) {
         Long userInd = currentUserInd();
         Optional<CpUser> optional = userRepository.findById(userInd);
@@ -73,9 +85,7 @@ public class WebtoonService {
     }
 
     public SCpWebtoon.Item saveWebtoon(String bookNum) {
-        if(isNotEmpty(bookNum)) {
-            throw new ContentNotFoundException("도서코드를 정확하지 않습니다.");
-        }
+        requiredBookCode(bookNum);
 
         TqWebtoon tqWebtoon = tqWebtoonRepository.findByCpWebtoon(bookNum);
         Webtoon webtoon = webtoonRepository.save(Webtoon.create(tqWebtoon));
@@ -83,11 +93,11 @@ public class WebtoonService {
         return SCpWebtoon.Item.form(bookNum, webtoon);
     }
 
+
+
     public SCpWebtoon.Item modifyCpWebtoon(QTqWebtoonPostData.Modify param) {
         String bookCode = param.getBookCode();
-        if(bookCode == null) {
-            throw new IllegalArgumentException("작품 정보가 존재하지 않습니다.");
-        }
+        requiredBookCode(bookCode);
 
         TqWebtoon tqWebtoon = tqWebtoonRepository.findByCpWebtoon(bookCode);
         Webtoon webtoon = webtoonRepository.findByWebtoon(bookCode);
@@ -104,6 +114,14 @@ public class WebtoonService {
         Optional<Webtoon> optional = webtoonRepository.findById(param.getInd());
         Webtoon webtoon = optional.orElseThrow(() -> new ContentNotFoundException("작품 정보가 존재하지 않습니다."));
 
+    }
+
+
+
+    private void requiredBookCode(String bookCode) {
+        if(isEmpty(bookCode)) {
+            throw new ContentNotFoundException("도서코드를 정확하지 않습니다.");
+        }
     }
 
 }

@@ -18,8 +18,6 @@ public class QTqWebtoon extends EntityPathBase<TqWebtoon> {
 
     private static final long serialVersionUID = -853409334L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QTqWebtoon tqWebtoon = new QTqWebtoon("tqWebtoon");
 
     public final EnumPath<com.server.cms.type.YnType> adultYn = createEnum("adultYn", com.server.cms.type.YnType.class);
@@ -28,7 +26,7 @@ public class QTqWebtoon extends EntityPathBase<TqWebtoon> {
 
     public final DateTimePath<java.time.LocalDateTime> closeDt = createDateTime("closeDt", java.time.LocalDateTime.class);
 
-    public final ListPath<TqWebtoonEpisode, QTqWebtoonEpisode> epi = this.<TqWebtoonEpisode, QTqWebtoonEpisode>createList("epi", TqWebtoonEpisode.class, QTqWebtoonEpisode.class, PathInits.DIRECT2);
+    public final ListPath<TqWebtoonEpisode, QTqWebtoonEpisode> episode = this.<TqWebtoonEpisode, QTqWebtoonEpisode>createList("episode", TqWebtoonEpisode.class, QTqWebtoonEpisode.class, PathInits.DIRECT2);
 
     public final StringPath genre = createString("genre");
 
@@ -44,27 +42,16 @@ public class QTqWebtoon extends EntityPathBase<TqWebtoon> {
 
     public final StringPath title = createString("title");
 
-    public final QWebtoon webtoon;
-
     public QTqWebtoon(String variable) {
-        this(TqWebtoon.class, forVariable(variable), INITS);
+        super(TqWebtoon.class, forVariable(variable));
     }
 
     public QTqWebtoon(Path<? extends TqWebtoon> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QTqWebtoon(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QTqWebtoon(PathMetadata metadata, PathInits inits) {
-        this(TqWebtoon.class, metadata, inits);
-    }
-
-    public QTqWebtoon(Class<? extends TqWebtoon> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.webtoon = inits.isInitialized("webtoon") ? new QWebtoon(forProperty("webtoon")) : null;
+        super(TqWebtoon.class, metadata);
     }
 
 }
