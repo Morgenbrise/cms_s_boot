@@ -29,8 +29,8 @@ public class RequestLoggingAspect {
     @Around("com.server.cms.config.aspect.RequestLoggingAspect.onRequest()")
     public Object doLogging(ProceedingJoinPoint pjp) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-
-        Map<String, String[]> paramMap = request.getParameterMap();
+        RereadableRequestWrapper rereadableRequestWrapper = new RereadableRequestWrapper(request);
+        Map<String, String[]> paramMap = rereadableRequestWrapper.getParameterMap();
         String params = "";
         String userId = getUserId();
         if (paramMap.isEmpty() == false) {
@@ -46,7 +46,7 @@ public class RequestLoggingAspect {
             long end = System.currentTimeMillis();
             log.info("@ASPECT REQUEST    [{}]    : {} {}{} < {} ({}ms)", userId, request.getMethod(), request.getRequestURI(), params, request.getRemoteHost(), end - start);
             if ("POST".equalsIgnoreCase(request.getMethod()) || "PATCH".equalsIgnoreCase(request.getMethod())) {
-                log.info("@ASPECT POST BODY  [{}]    : {} ", userId, IOUtils.toString(request.getReader()));
+//                log.info("@ASPECT POST BODY  [{}]    : {} ", userId, IOUtils.toString(request.getReader()));
             }
             log.info("@ASPECT RESPONSE   [{}]    : {} {}{} < {} ({}ms)", userId, request.getMethod(), request.getRequestURI(), proceed, request.getRemoteHost(), end - start);
         }

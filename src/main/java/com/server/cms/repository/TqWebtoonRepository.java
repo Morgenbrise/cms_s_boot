@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface TqWebtoonRepository extends JpaRepository<TqWebtoon, Long>, QueryTqWebtoonRepository {
 
-    @Query("select h from TqWebtoon h where h.showYn = 'Y' and h.webtoon.ind = :parentsInd")
-    Optional<TqWebtoon> findByIsUseCpWebtoon(@Param("parentsInd") Long parentsInd);
+//    @Query("select h from TqWebtoon h where h.showYn = 'Y' and h.webtoon.ind = :parentsInd")
+//    Optional<TqWebtoon> findByIsUseCpWebtoon(@Param("parentsInd") Long parentsInd);
 
 }

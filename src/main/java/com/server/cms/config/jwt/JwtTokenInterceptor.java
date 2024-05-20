@@ -39,15 +39,16 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 //            }
 //        }
 
-        String accessToken = "";
-        try {
-            accessToken = token.replaceAll("Bearer ", "");
-        } catch (NullPointerException e) {
-//            throw new RestApiException(ErrorCode.UNAUTHORIZED_REQUEST);
-            return false;
-        }
-
         if (token != null) {
+
+            String accessToken = "";
+            try {
+                accessToken = token.replaceAll("Bearer ", "");
+            } catch (NullPointerException e) {
+//            throw new RestApiException(ErrorCode.UNAUTHORIZED_REQUEST);
+                return false;
+            }
+
             JWT.Claims verify = jwt.verify(accessToken);
             String userId = verify.getUserId();
             if (userId == null) {

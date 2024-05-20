@@ -28,7 +28,7 @@ public class QTqWebtoonEpisode extends EntityPathBase<TqWebtoonEpisode> {
 
     public final NumberPath<Integer> episodeNum = createNumber("episodeNum", Integer.class);
 
-    public final StringPath episodeType = createString("episodeType");
+    public final EnumPath<com.server.cms.type.EpisodeType> episodeType = createEnum("episodeType", com.server.cms.type.EpisodeType.class);
 
     public final NumberPath<Long> ind = createNumber("ind", Long.class);
 

@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.NotContextException;
 
+import java.util.List;
+
 import static com.server.cms.config.response.ApiResult.OK;
 
 @Tag(name = "웹툰", description = "웹툰 API")
@@ -34,7 +36,7 @@ public class WebtoonController {
     private final WebtoonEpisodeService episodeService;
 
     @PostMapping(path = "/api/sv/cp/webtoon")
-    public ApiResult saveHisWebtoon(@Valid @RequestBody QTqWebtoonPostData.Save param) {
+    public ApiResult saveHisWebtoon(@Valid @RequestPart QTqWebtoonPostData.Save param) {
         SCpWebtoon.Item item = webtoonService.saveCpWebtoon(param);
         return OK(item);
     }

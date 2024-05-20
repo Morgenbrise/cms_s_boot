@@ -16,6 +16,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
@@ -63,7 +64,9 @@ public class WebSecurityConfig {
         http.authenticationManager(authenticationManager);
 
         http.httpBasic(HttpBasicConfigurer::disable);
-        http.csrf(CsrfConfigurer::disable).csrf(Customizer.withDefaults());
+        http.csrf(CsrfConfigurer::disable);
+//                .csrf(Customizer.withDefaults());
+        http.cors(CorsConfigurer::disable);
 
         http
                 .authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD)
@@ -71,7 +74,7 @@ public class WebSecurityConfig {
                                                     .requestMatchers("/swagger-ui/**", "/swagger-resources/**","/v3/api-docs/**", "/api-docs/**").permitAll()
                                                     .requestMatchers("/auth/**").permitAll()
 //                                                    .requestMatchers("/api/**").authenticated()
-                                                    .anyRequest().authenticated()
+                                                    .anyRequest().permitAll()
                 )
 
                 .exceptionHandling(authentication ->

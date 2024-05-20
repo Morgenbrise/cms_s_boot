@@ -7,7 +7,7 @@ spring:
     oracle:
       databasePlatform: org.hibernate.dialect.OracleDialect
       driverClassName: oracle.jdbc.OracleDriver
-      url: jdbc:oracle:thin:@sj_high?TNS_ADMIN=/Users/chosejong/Desktop/자료실/Oracle/database/Wallet_sj
+      url: jdbc:oracle:thin:@sj_high?TNS_ADMIN=D:/개인파일/Wallet_sj
       username: ADMIN
       password: Chosejong86!
       hikari:
@@ -24,6 +24,9 @@ spring:
         show-sql: true
         format_sql: true
     defer-datasource-initialization: true
+  mvc:
+    servlet:
+      load-on-startup: 1
 
 jwt:
   token:
@@ -51,3 +54,15 @@ springdoc:
     doc-expansion: none
   paths-to-match:
     - /api/**
+
+server:
+  port: 8080
+  tomcat:
+    max-http-form-post-size: 10MB
+  servlet:
+    encoding:
+      force-response: true
+      charset: UTF-8
+      enabled: true
+      force: true
+      force-request: true

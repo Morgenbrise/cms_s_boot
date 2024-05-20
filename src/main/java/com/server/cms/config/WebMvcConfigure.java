@@ -2,19 +2,24 @@ package com.server.cms.config;
 
 import com.server.cms.config.jwt.JWT;
  import com.server.cms.config.jwt.JwtTokenInterceptor;
- import lombok.RequiredArgsConstructor;
+import com.server.cms.config.multipart.OctetStreamReadMsgConverter;
+import lombok.RequiredArgsConstructor;
  import lombok.Value;
  import org.springframework.context.annotation.Bean;
  import org.springframework.context.annotation.Configuration;
- import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
  import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
  import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
  import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebMvcConfigure implements WebMvcConfigurer {
 
+    private final OctetStreamReadMsgConverter octetStreamReadMsgConverter;
     private final JWT jwt;
 
 //      @Value("${spring.url}")
@@ -40,6 +45,11 @@ public class WebMvcConfigure implements WebMvcConfigurer {
                 .excludePathPatterns("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs", "/api-docs/**")
                 .excludePathPatterns("/signUp", "/signIn", "/error/**", "/reissue")
                 .addPathPatterns("/**");
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(octetStreamReadMsgConverter);
     }
 
     @Bean
