@@ -61,7 +61,7 @@ public class TqWebtoon {
     @Convert(converter = EnumConverter.YnEnum.class)
     private YnType showYn;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tqWebtoon")
     private List<TqWebtoonEpisode> episode = new ArrayList<>();
 
     private TqWebtoon(String title, String remark, String genre, String author

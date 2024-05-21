@@ -13,6 +13,10 @@ public class QTqEpisodePostData {
     @Getter
     public static class Save {
 
+        @NotEmpty(message = "웹툰 정보가 존재하지 않습니다.")
+        @JsonProperty("CD_BOOK")
+        private String bookCode;
+
         @JsonProperty("TITLE")
         private String title;
 

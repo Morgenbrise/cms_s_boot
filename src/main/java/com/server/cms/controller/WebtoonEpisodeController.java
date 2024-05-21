@@ -20,10 +20,11 @@ public class WebtoonEpisodeController {
 
     @PostMapping(path = "/api/cp/reg/webtoon/episode", consumes = {MediaType.APPLICATION_JSON_VALUE, "multipart/form-data"})
     public ApiResult saveCpEpisode(@RequestPart(value = "PARAM") QTqEpisodePostData.Save param
-                                , @RequestPart(value = "THUMBNAIL", required = false) MultipartFile file) {
+                                , @RequestPart(value = "THUMBNAIL", required = false) MultipartFile thumbnail
+                                , @RequestPart(value = "MANUSCRIPT", required = false) MultipartFile manuscript) {
         log.info("PARAM : {}", param.toString());
-        log.info("PARAM_TITLE : {}", param.getTitle());
-        log.info("FILE : {}", file.getOriginalFilename());
+        log.info("THUMBNAIL : {}", thumbnail.getOriginalFilename());
+        log.info("MANUSCRIPT : {}", manuscript.getOriginalFilename());
 
         return OK(null);
     }

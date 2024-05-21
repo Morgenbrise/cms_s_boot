@@ -66,3 +66,6 @@ server:
       enabled: true
       force: true
       force-request: true
+
+directory:
+  content: D:\임시테스트

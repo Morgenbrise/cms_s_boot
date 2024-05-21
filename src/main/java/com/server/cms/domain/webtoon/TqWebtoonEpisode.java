@@ -67,12 +67,13 @@ public class TqWebtoonEpisode extends BaseTimeEntity {
     private TqWebtoon tqWebtoon;
 
     public TqWebtoonEpisode(String episodeCode, String title, Integer episodeNum, Integer order
-                        , Integer price, EpisodeType episodeType, String thumbnailName, String openDate) {
+                        , Integer price, EpisodeType episodeType, String thumbnailName, String openDate, TqWebtoon entity) {
         checkArgument(episodeNum != null && episodeNum >= 0, "회차 번호는 필수 입력 항목입니다.");
         checkArgument(order != null && order >= 0, "회차 순서는 필수 입력 항목입니다.");
         checkArgument(price != null && price >= 0, "구입 금액을 확인해 주세요.");
         checkArgument(isNotEmpty(openDate), "오픈일자는 필수 입력 항목입니다.");
         checkArgument(isNotEmpty(episodeCode), "회차 코드가 존재하지 않습니다.");
+        checkArgument(entity != null, "웹툰 정보를 찾을수 없습니다.");
 
         this.episodeCode = episodeCode;
         this.title = title;
@@ -82,11 +83,12 @@ public class TqWebtoonEpisode extends BaseTimeEntity {
         this.episodeType = episodeType;
         this.thumbnailName = thumbnailName;
         this.openDate = LocalDateUtil.getConvertDateTime(openDate);
+        this.tqWebtoon = entity;
     }
 
-    public static TqWebtoonEpisode create(String episodeCode, QTqEpisodePostData.Save param) {
+    public static TqWebtoonEpisode create(String episodeCode, QTqEpisodePostData.Save param, TqWebtoon entity) {
         return new TqWebtoonEpisode(episodeCode, param.getTitle(), param.getEpisodeNum(), param.getOrder()
-                                    , param.getPrice(), param.getEpisodeType(), "", param.getOpenDate());
+                                    , param.getPrice(), param.getEpisodeType(), "", param.getOpenDate(), entity);
     }
 
     public CodeMapperValue getStatusMapper() {
