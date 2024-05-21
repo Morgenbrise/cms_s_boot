@@ -100,12 +100,16 @@ public class FileUtil {
 
 
 
-    public static void unzip(File file, String path) {
+    public static void unzip(File file) {
+        if(file == null) {
+            throw new NullPointerException("파일이 존재하지 않습니다.");
+        }
+        String path = file.getPath();
         File destDir = new File(path);
 
         byte[] buffer = new byte[1024];
         try {
-            ZipInputStream zis = new ZipInputStream(new FileInputStream(path + File.separator + file.getOriginalFilename()));
+            ZipInputStream zis = new ZipInputStream(new FileInputStream(path + File.separator + file.getName()));
             ZipEntry zipEntry = zis.getNextEntry();
             while (zipEntry != null) {
                 File newFile = newFile(destDir, zipEntry);
@@ -192,7 +196,7 @@ public class FileUtil {
         return file;
     }
 
-    private static void createDir(String filePath) {
+    public static void createDir(String filePath) {
         Path directoryPath = Paths.get(filePath);
         File folder = new File(filePath);
         if(!folder.exists()) {
