@@ -82,8 +82,7 @@ public class WebtoonEpisodeService {
         // TODO Image Entity 필요
         String path = Paths.get(FILE_DIR, bookCode, String.format("%04d", size)).toString();
         FileData fileData = FileUtil.imageFileSave(imageFile, path, ImageFileEnum.WEBTOON_EPISODE);
-
-        File[] files = manuscriptFileUpload(manuscriptMultipartFile);
+        File manuscriptDir = manuscriptFileUpload(manuscriptMultipartFile);
 
         return SEpisode.Item.create(save);
     }
@@ -94,7 +93,7 @@ public class WebtoonEpisodeService {
         }
     }
 
-    private File[] manuscriptFileUpload(MultipartFile multipartFile) {
+    private File manuscriptFileUpload(MultipartFile multipartFile) {
         if(multipartFile == null) {
             throw new FileNotFoundException("원고 파일 정보가 존재하지 않습니다.");
         }
@@ -102,22 +101,21 @@ public class WebtoonEpisodeService {
         String dirPath = Paths.get(FILE_DIR, dirName).toString();
         FileUtil.createDir(dirPath);
 
-        File file = new File(dirPath + File.separator +multipartFile.getOriginalFilename());
+        File file = new File(multipartFile.getOriginalFilename());
         String uniqueFileName = FileUtil.generateUniqueFileName(file);
         File newFile = new File(dirPath + File.separator + uniqueFileName);
 
         try {
-            if(file.exists()) {
+            if(newFile.exists()) {
                 throw new FileNotFoundException("동일한 파일이 존재하지 합니다.");
             }
-            multipartFile.transferTo(file);
-            FileUtils.moveFile(file, newFile);
+
+            multipartFile.transferTo(newFile);
         } catch (IOException e) {
             throw new FileNotFoundException("파일 복사중 오류가 발생했습니다.");
         }
-        FileUtil.unzip(newFile);
 
-        return newFile.listFiles();
+        return FileUtil.unzip(newFile);
     }
 
 }
