@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileData {
 
@@ -28,6 +31,18 @@ public class FileData {
         this.path = builder.path;
         this.ext = builder.ext;
         this.fileSize = builder.fileSize;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
+                .append("TYPE", type)
+                .append("FILE_NAME", fileName)
+                .append("ORIGIN_FILE_NAME", originFileName)
+                .append("PATH", path)
+                .append("EXT", ext)
+                .append("FILE_SIZE", fileSize)
+                .toString();
     }
 
     public static FileData isEmpty() {

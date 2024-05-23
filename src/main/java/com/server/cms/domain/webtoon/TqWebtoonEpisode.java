@@ -1,7 +1,9 @@
 package com.server.cms.domain.webtoon;
 
-import com.google.common.base.Preconditions;
 import com.server.cms.data.request.wevtoon.QTqEpisodePostData;
+import com.server.cms.domain.manuscript.InspectManuscript;
+import com.server.cms.domain.manuscript.Manuscript;
+import com.server.cms.exception.FileData;
 import com.server.cms.framework.common.BaseTimeEntity;
 import com.server.cms.framework.common.CodeMapperValue;
 import com.server.cms.framework.converter.EnumConverter;
@@ -13,9 +15,9 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -46,6 +48,9 @@ public class TqWebtoonEpisode extends BaseTimeEntity {
     @Column(name = "PRICE")
     private Integer price;
 
+    @Column(name = "PATH")
+    private String path;
+
     @Column(name = "TP_EPISODE")
     private EpisodeType episodeType;
 
@@ -62,17 +67,26 @@ public class TqWebtoonEpisode extends BaseTimeEntity {
     @Convert(converter = EnumConverter.TqContentStatusEnum.class)
     private TqContentStatusType status;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "episode")
+    private List<InspectManuscript> inspectManuscript;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "episode")
+    private List<Manuscript> manuscript;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IDX_TQ_WEBTOON")
     private TqWebtoon tqWebtoon;
 
     public TqWebtoonEpisode(String episodeCode, String title, Integer episodeNum, Integer order
-                        , Integer price, EpisodeType episodeType, String thumbnailName, String openDate, TqWebtoon entity) {
+                        , Integer price, EpisodeType episodeType, String path, String thumbnailName, String openDate
+                        , TqWebtoon entity) {
         checkArgument(episodeNum != null && episodeNum >= 0, "회차 번호는 필수 입력 항목입니다.");
         checkArgument(order != null && order >= 0, "회차 순서는 필수 입력 항목입니다.");
         checkArgument(price != null && price >= 0, "구입 금액을 확인해 주세요.");
         checkArgument(isNotEmpty(openDate), "오픈일자는 필수 입력 항목입니다.");
         checkArgument(isNotEmpty(episodeCode), "회차 코드가 존재하지 않습니다.");
+        checkArgument(isNotEmpty(path), "회차 썸네일이 존재하지 않습니다.");
+        checkArgument(isNotEmpty(thumbnailName), "회차 썸네일이 존재하지 않습니다.");
         checkArgument(entity != null, "웹툰 정보를 찾을수 없습니다.");
 
         this.episodeCode = episodeCode;
@@ -84,14 +98,15 @@ public class TqWebtoonEpisode extends BaseTimeEntity {
         this.thumbnailName = thumbnailName;
         this.openDate = LocalDateUtil.getConvertDateTime(openDate);
         this.tqWebtoon = entity;
+        this.path = path;
+        this.useYn = YnType.Y;
     }
 
-    public static TqWebtoonEpisode create(String episodeCode, QTqEpisodePostData.Save param, TqWebtoon entity) {
+    public static TqWebtoonEpisode create(String episodeCode, QTqEpisodePostData.Save param, TqWebtoon entity, FileData fileData) {
         return new TqWebtoonEpisode(episodeCode, param.getTitle(), param.getEpisodeNum(), param.getOrder()
-                                    , param.getPrice(), param.getEpisodeType(), "", param.getOpenDate(), entity);
+                                    , param.getPrice(), param.getEpisodeType(), fileData.getPath()
+                                    , fileData.getFileName(), param.getOpenDate(), entity);
     }
 
-    public CodeMapperValue getStatusMapper() {
-        return status.getVo();
-    }
+
 }

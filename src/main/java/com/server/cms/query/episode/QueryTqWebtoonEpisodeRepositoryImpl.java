@@ -46,7 +46,7 @@ public class QueryTqWebtoonEpisodeRepositoryImpl extends OracleQueryDSLRepositor
                                 , tqWebtoonEpisode.episodeNum
                                 , tqWebtoonEpisode.order
                                 , tqWebtoonEpisode.price
-                                , tqWebtoonEpisode.thumbnailName
+                                , tqWebtoonEpisode.path.concat(tqWebtoonEpisode.thumbnailName)
                                 , tqWebtoonEpisode.status
                         ))
                         .from(tqWebtoonEpisode)
