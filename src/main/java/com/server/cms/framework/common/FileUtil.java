@@ -95,17 +95,18 @@ public class FileUtil {
         String randomNumber = Integer.toString(random.nextInt(Integer.MAX_VALUE));
         String ext = FilenameUtils.getExtension(file.getName());
 
-        return s + randomNumber + ext;
+        return s + randomNumber + "." + ext;
     }
 
 
 
-    public static void unzip(File file) {
+    public static File unzip(File file) {
         if(file == null) {
             throw new NullPointerException("파일이 존재하지 않습니다.");
         }
-        String path = file.getPath();
-        File destDir = new File(path);
+        String path = file.getParent();
+        String name = FilenameUtils.removeExtension(file.getName());
+        File destDir = new File(path + File.separator + name);
 
         byte[] buffer = new byte[1024];
         try {
@@ -141,6 +142,8 @@ public class FileUtil {
                 ioException.printStackTrace();
             }
         }
+
+        return destDir;
     }
 
     private static File resize(File file, int baseWidth) {

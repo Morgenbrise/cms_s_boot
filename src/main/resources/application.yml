@@ -68,4 +68,7 @@ server:
       force-request: true
 
 directory:
-  content: D:\임시테스트
+  upload:
+    content: D:\임시테스트\temp
+  content:
+    img: D:\임시테스트\content
