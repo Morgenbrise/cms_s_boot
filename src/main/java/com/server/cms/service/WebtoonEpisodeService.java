@@ -85,7 +85,6 @@ public class WebtoonEpisodeService {
 
         File[] files = manuscriptFileUpload(manuscriptMultipartFile);
 
-
         return SEpisode.Item.create(save);
     }
 
