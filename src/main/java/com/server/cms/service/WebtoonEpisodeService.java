@@ -103,7 +103,6 @@ public class WebtoonEpisodeService {
             InspectManuscript tempManuscript = InspectManuscript.create(build, save);
             inspectManuscriptRepository.save(tempManuscript);
         }
-
         return SEpisode.Item.create(save);
     }
 
