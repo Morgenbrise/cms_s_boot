@@ -23,6 +23,9 @@ public class CpUser {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GENERATOR")
     private Long ind;
 
+    @Column(name = "CD_COMPANY")
+    private String companyCode;
+
     @Column(name = "ID_USER")
     private String id;
 
@@ -42,7 +45,7 @@ public class CpUser {
     private String cpNm;
 
     public static CpUser create() {
-        return new CpUser(null, "test1", "11234", "테스터", "01012341234", "test@naver.com", "1");
+        return new CpUser(null, "123123", "test1", "11234", "테스터", "01012341234", "test@naver.com", "1");
     }
 
     public void checkLoginPassword(String pw, PasswordEncoder encoder) {

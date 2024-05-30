@@ -1,22 +1,31 @@
 package com.server.cms.config.jwt;
 
 import com.server.cms.data.response.SUser;
+import lombok.Getter;
 
+@Getter
 public class AuthenticationResult {
 
     private final String apiToken;
 
-    private final SUser.Read user;
+    private String companyCode;
+
+    private final String userId;
+
+    private final String userName;
+
+    private final String email;
 
     public AuthenticationResult(String apiToken, SUser.Read user) {
         this.apiToken = apiToken;
-        this.user = user;
+        this.companyCode = user.getCompanyCode();
+        this.userId = user.getId();
+        this.userName = user.getName();
+        this.email = user.getEmail();
     }
+
     public String getApiToken() {
         return apiToken;
-    }
-    public SUser.Read getUser() {
-        return user;
     }
 
 }

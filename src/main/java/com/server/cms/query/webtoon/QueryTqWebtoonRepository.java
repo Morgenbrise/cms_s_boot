@@ -7,8 +7,8 @@ import com.server.cms.framework.common.ResponsePageDTO;
 public interface QueryTqWebtoonRepository {
 
     TqWebtoon findByCpWebtoon(String bookCode);
-    TqWebtoon findByCpWebtoon(Long userInd, String bookCode);
+    TqWebtoon findByCpWebtoon(String companyCode, String bookCode);
 
-    ResponsePageDTO findByCpWebtoons(Long cpInd, QWebtoonData.Search param);
+    ResponsePageDTO findByCpWebtoons(String companyCode, QWebtoonData.Search param);
 
 }

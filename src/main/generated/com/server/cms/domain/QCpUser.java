@@ -19,6 +19,8 @@ public class QCpUser extends EntityPathBase<CpUser> {
 
     public static final QCpUser cpUser = new QCpUser("cpUser");
 
+    public final StringPath companyCode = createString("companyCode");
+
     public final StringPath cpNm = createString("cpNm");
 
     public final StringPath email = createString("email");

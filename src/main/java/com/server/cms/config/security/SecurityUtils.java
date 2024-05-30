@@ -7,12 +7,23 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityUtils {
 
-    public static Long currentUserInd() {
+    public static String currentCompanyCode() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
         if(principal instanceof JwtAuthentication) {
             JwtAuthentication user = (JwtAuthentication) principal;
-            return user.getSeq();
+            return user.getCompanyCode();
+        }
+
+        throw new UserNotFoundException();
+    }
+
+    public static String currentCpId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+        if(principal instanceof JwtAuthentication) {
+            JwtAuthentication user = (JwtAuthentication) principal;
+            return user.getUserId();
         }
 
         throw new UserNotFoundException();

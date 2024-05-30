@@ -5,6 +5,7 @@ import com.server.cms.service.UserService;
 import com.server.cms.type.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -31,10 +32,13 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private Authentication JwtAuthenticationProvider(AuthenticationRequest request) {
 
         try {
-            SUser.Read user = userService.findByLoginUser(request.getUserId(), request.getPassword());
+            SUser.Read user = userService.findByLoginUser(request.getId(), request.getPassword());
             JwtAuthenticationToken authenticated =
-                    new JwtAuthenticationToken(user.getId(), null, AuthorityUtils.createAuthorityList(Role.USER.value()));
+                    new JwtAuthenticationToken(new JwtAuthentication(user.getCompanyCode(), user.getId(), user.getName())
+                                            , null, AuthorityUtils.createAuthorityList(Role.USER.value()));
             String apiToken = user.newToken(jwt, new String[]{Role.USER.value()});
+
+            userService.saveRefreshToken(apiToken);
             authenticated.setDetails(new AuthenticationResult(apiToken, user));
             return authenticated;
         } catch (IllegalArgumentException e) {

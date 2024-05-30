@@ -5,7 +5,7 @@ import com.server.cms.framework.common.ResponsePageDTO;
 
 public interface QueryTqWebtoonEpisodeRepository {
 
-    ResponsePageDTO findByWebtoonEpisodes(Long userInd, QTqEpisodeData.Search episode);
-    ResponsePageDTO findByEpisodes(Long userInd, QTqEpisodeData.Search episode);
+    ResponsePageDTO findByWebtoonEpisodes(String companyCode, QTqEpisodeData.Search episode);
+    ResponsePageDTO findByEpisodes(String companyCode, QTqEpisodeData.Search episode);
 
 }

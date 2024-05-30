@@ -17,7 +17,6 @@ import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 public final class JWT {
 
-    // 토큰 발급자
     private final String issuer;
 
     private final String clientSecret;
@@ -46,11 +45,18 @@ public final class JWT {
         if(expirySeconds > 0) {
             builder.withExpiresAt(new Date(now.getTime() + expirySeconds * 1_000L));
         }
-        builder.withClaim("seq", claims.seq);
+        builder.withClaim("seq", claims.companyCode);
         builder.withClaim("userId", claims.userId);
         builder.withClaim("name", claims.name);
         builder.withArrayClaim("roles", claims.roles);
         return builder.sign(algorithm);
+    }
+
+    public String refreshToken(String token) throws JWTVerificationException {
+        Claims claims = verify(token);
+        claims.eraseIat();
+        claims.eraseExp();
+        return newToken(claims);
     }
 
     public Claims verify(String token) throws JWTVerificationException {
@@ -59,7 +65,7 @@ public final class JWT {
 
     @Getter
     static public class Claims {
-        private Long seq;
+        private String companyCode;
         private String userId;
         private String name;
         private String[] roles;
@@ -69,8 +75,8 @@ public final class JWT {
         private Claims() {}
 
         Claims(DecodedJWT decodedJWT) {
-            Claim seq = decodedJWT.getClaim("seq");
-            if (!seq.isNull()) {this.seq = seq.asLong();}
+            Claim companyCode = decodedJWT.getClaim("companyCode");
+            if (!companyCode.isNull()) {this.companyCode = companyCode.asString();}
             Claim userId = decodedJWT.getClaim("userId");
             if (!userId.isNull()) {this.userId = userId.asString();}
             Claim name = decodedJWT.getClaim("name");
@@ -82,9 +88,9 @@ public final class JWT {
             this.exp = decodedJWT.getExpiresAt();
         }
 
-        public static Claims of(long seq, String userId, String name, String email, String[] roles) {
+        public static Claims of(String companyCode, String userId, String name, String email, String[] roles) {
             Claims claims = new Claims();
-            claims.seq = seq;
+            claims.companyCode = companyCode;
             claims.userId = userId;
             claims.name = name;
             claims.roles = roles;
@@ -110,11 +116,11 @@ public final class JWT {
         @Override
         public String toString() {
             return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-                    .append("SEQ", seq)
-                    .append("name", name)
-                    .append("roles", Arrays.toString(roles))
-                    .append("iat", iat)
-                    .append("exp", exp)
+                    .append("COMPANY_CODE", companyCode)
+                    .append("NAME", name)
+                    .append("ROLES", Arrays.toString(roles))
+                    .append("IAT", iat)
+                    .append("EXP", exp)
                     .toString();
         }
     }

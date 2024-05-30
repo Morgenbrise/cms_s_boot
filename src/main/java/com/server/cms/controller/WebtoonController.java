@@ -20,10 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.NotContextException;
-
-import java.util.List;
-
 import static com.server.cms.config.response.ApiResult.OK;
 
 @Tag(name = "웹툰", description = "웹툰 API")
@@ -43,14 +39,14 @@ public class WebtoonController {
 
     @GetMapping(path = "/api/cp/webtoons")
     public ApiResult getCpWebtoons(@QueryParam QWebtoonData.Search param) {
-        Long ind = SecurityUtils.currentUserInd();
+        String companyCode = SecurityUtils.currentCompanyCode();
         if(log.isDebugEnabled()) {
-            log.info("getCpWetoons[{}] ----> {}", ind, param.toString());
+            log.info("getCpWetoons[{}] ----> {}", companyCode, param.toString());
         }
-        if(ind == null) {
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
-        ResponsePageDTO webtoons = webtoonService.findByCpWebtoons(ind, param);
+        ResponsePageDTO webtoons = webtoonService.findByCpWebtoons(companyCode, param);
 
         return OK(webtoons);
     }
@@ -73,15 +69,15 @@ public class WebtoonController {
     @Operation(summary = "웹툰 리스트 정보", description = "등록된 웹툰 리스트 정보를 보여줍니다.")
     @GetMapping(path = "/api/webtoons")
     public ApiResult getWebtoons(@QueryParam QWebtoonData.Search param) {
-        Long ind = SecurityUtils.currentUserInd();
+        String companyCode = SecurityUtils.currentCompanyCode();
         if(log.isDebugEnabled()) {
-            log.info("getWetoons[{}] ----> {}", ind, param.toString());
+            log.info("getWetoons[{}] ----> {}", companyCode, param.toString());
         }
-        if(ind == null) {
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
-        ResponsePageDTO webtoons = webtoonService.findByWebtoons(ind, param);
+        ResponsePageDTO webtoons = webtoonService.findByWebtoons(companyCode, param);
         return OK(webtoons);
     }
 

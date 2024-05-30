@@ -34,6 +34,8 @@ public class QTqWebtoonEpisode extends EntityPathBase<TqWebtoonEpisode> {
 
     public final ListPath<com.server.cms.domain.manuscript.InspectManuscript, com.server.cms.domain.manuscript.QInspectManuscript> inspectManuscript = this.<com.server.cms.domain.manuscript.InspectManuscript, com.server.cms.domain.manuscript.QInspectManuscript>createList("inspectManuscript", com.server.cms.domain.manuscript.InspectManuscript.class, com.server.cms.domain.manuscript.QInspectManuscript.class, PathInits.DIRECT2);
 
+    public final ListPath<com.server.cms.domain.manuscript.Manuscript, com.server.cms.domain.manuscript.QManuscript> manuscript = this.<com.server.cms.domain.manuscript.Manuscript, com.server.cms.domain.manuscript.QManuscript>createList("manuscript", com.server.cms.domain.manuscript.Manuscript.class, com.server.cms.domain.manuscript.QManuscript.class, PathInits.DIRECT2);
+
     public final DateTimePath<java.time.LocalDateTime> openDate = createDateTime("openDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Integer> order = createNumber("order", Integer.class);
@@ -49,8 +51,6 @@ public class QTqWebtoonEpisode extends EntityPathBase<TqWebtoonEpisode> {
     public final StringPath regId = _super.regId;
 
     public final EnumPath<com.server.cms.type.TqContentStatusType> status = createEnum("status", com.server.cms.type.TqContentStatusType.class);
-
-    public final ListPath<com.server.cms.domain.manuscript.TempManuscript, com.server.cms.domain.manuscript.QTempManuscript> tempManuscripts = this.<com.server.cms.domain.manuscript.TempManuscript, com.server.cms.domain.manuscript.QTempManuscript>createList("tempManuscripts", com.server.cms.domain.manuscript.TempManuscript.class, com.server.cms.domain.manuscript.QTempManuscript.class, PathInits.DIRECT2);
 
     public final StringPath thumbnailName = createString("thumbnailName");
 

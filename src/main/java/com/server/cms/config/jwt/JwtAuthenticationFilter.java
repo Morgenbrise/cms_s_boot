@@ -32,10 +32,8 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private static final Pattern BEARER = Pattern.compile("^Bearer$", Pattern.CASE_INSENSITIVE);
-
-    private final JWT jwt;
-
     private static final String tokenHeader = "Authorization";
+    private final JWT jwt;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -49,15 +47,20 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                     JWT.Claims claims = jwt.verify(authorizationToken);
                     if(log.isDebugEnabled()) {log.debug("JWT RESULT : {}", claims);}
 
-                    Long seq = claims.getSeq();
+                    if(canRefresh(claims, 1000L * 60L * 5L)) {
+                        String refreshToken = "Bearer " + jwt.refreshToken(authorizationToken);
+                        res.addHeader(tokenHeader, refreshToken);
+                    }
+
+                    String companyCode = claims.getCompanyCode();
                     String userId = claims.getUserId();
                     String name = claims.getName();
 
                     List<GrantedAuthority> authorities = obtainAuthorities(claims);
 
-                    if(nonNull(seq) && isNotBlank(name) && authorities.size() > 0)  {
+                    if(isNotBlank(companyCode) && isNotBlank(name) && authorities.size() > 0)  {
                         JwtAuthenticationToken authentication =
-                                new JwtAuthenticationToken(new JwtAuthentication(seq, userId, name), null, authorities);
+                                new JwtAuthenticationToken(new JwtAuthentication(companyCode, userId, name), null, authorities);
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
@@ -66,10 +69,21 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 }
             }
         } else {
-            log.debug("SecurityContextHolder not populated with security token, as it already contained: '{}'", SecurityContextHolder.getContext().getAuthentication());
+            if (log.isDebugEnabled()) {
+                log.debug("SecurityContextHolder not populated with security token, as it already contained: '{}'", SecurityContextHolder.getContext().getAuthentication());
+            }
         }
 
         chain.doFilter(req, res);
+    }
+
+    private boolean canRefresh(JWT.Claims claims, long refreshRangeMillis) {
+        long exp = claims.getExp();
+        if(exp > 0) {
+            long remain = exp - System.currentTimeMillis();
+            return remain < refreshRangeMillis;
+        }
+        return false;
     }
 
     private List<GrantedAuthority> obtainAuthorities(JWT.Claims claims) {
@@ -82,9 +96,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     private String obtainAuthorizationToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
         if(token != null) {
-            if(log.isDebugEnabled()) {
-                log.debug("JWT TOKEN : {}", token);
-            }
+            if(log.isDebugEnabled()) { log.debug("JWT TOKEN : {}", token); }
 
             try {
                 token = URLDecoder.decode(token, "UTF-8");

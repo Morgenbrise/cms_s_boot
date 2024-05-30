@@ -43,8 +43,8 @@ public class QueryTqWebtoonRepositoryImpl extends OracleQueryDSLRepositorySuppor
     }
 
     @Override
-    public TqWebtoon findByCpWebtoon(Long userInd, String bookCode) {
-        if(userInd == null) {
+    public TqWebtoon findByCpWebtoon(String companyCode, String bookCode) {
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
@@ -54,7 +54,7 @@ public class QueryTqWebtoonRepositoryImpl extends OracleQueryDSLRepositorySuppor
 
         return getCpWebtoon()
                 .where(
-                        contract.cpUser.ind.eq(userInd)
+                        contract.cpUser.companyCode.eq(companyCode)
                         , contract.bookCode.eq(bookCode)
                         , tqWebtoon.status.notIn(TqContentStatusType.DELETE)
                 )
@@ -62,8 +62,8 @@ public class QueryTqWebtoonRepositoryImpl extends OracleQueryDSLRepositorySuppor
     }
 
     @Override
-    public ResponsePageDTO findByCpWebtoons(Long cpInd, QWebtoonData.Search param) {
-        if(cpInd == null) {
+    public ResponsePageDTO findByCpWebtoons(String companyCode, QWebtoonData.Search param) {
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
@@ -71,7 +71,7 @@ public class QueryTqWebtoonRepositoryImpl extends OracleQueryDSLRepositorySuppor
         Page<Object> page = applyPagination(pageable, query ->
                 getCpWebtoon()
                         .where(
-                                contract.cpUser.ind.eq(cpInd),
+                                contract.cpUser.companyCode.eq(companyCode),
                                 likeTitle(param.getTitle())
                         )
         );

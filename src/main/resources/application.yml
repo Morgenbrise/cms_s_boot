@@ -32,7 +32,7 @@ jwt:
   token:
     issuer: toon_service
     clientSecret: Rel3Bjce2MajBo09qgkNgYaTuzvJe8iwnBFhsDS5
-    expirySeconds: 7200000
+    expirySeconds: 7200
     header: Authorization
     bearer: Bearer
 

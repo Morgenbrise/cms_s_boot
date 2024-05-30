@@ -28,8 +28,8 @@ public class QueryTqWebtoonEpisodeRepositoryImpl extends OracleQueryDSLRepositor
     }
 
     @Override
-    public ResponsePageDTO findByWebtoonEpisodes(Long userInd, QTqEpisodeData.Search episode) {
-        if(userInd == null) {
+    public ResponsePageDTO findByWebtoonEpisodes(String companyCode, QTqEpisodeData.Search episode) {
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
@@ -55,7 +55,7 @@ public class QueryTqWebtoonEpisodeRepositoryImpl extends OracleQueryDSLRepositor
                         .join(contract.tqWebtoon, tqWebtoon)
                         .fetchJoin()
                         .where(
-                                contract.cpUser.ind.eq(userInd),
+                                contract.cpUser.companyCode.eq(companyCode),
                                 contract.bookCode.eq(episode.getBookCode())
                         )
         );
@@ -64,8 +64,8 @@ public class QueryTqWebtoonEpisodeRepositoryImpl extends OracleQueryDSLRepositor
     }
 
     @Override
-    public ResponsePageDTO findByEpisodes(Long userInd,QTqEpisodeData.Search episode) {
-        if(userInd == null) {
+    public ResponsePageDTO findByEpisodes(String companyCode,QTqEpisodeData.Search episode) {
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
@@ -88,7 +88,7 @@ public class QueryTqWebtoonEpisodeRepositoryImpl extends OracleQueryDSLRepositor
                         .join(contract.tqWebtoon, tqWebtoon)
                         .fetchJoin()
                         .where(
-                                contract.cpUser.ind.eq(userInd),
+                                contract.cpUser.companyCode.eq(companyCode),
                                 tqWebtoonEpisode.updateDt.between(converterDate(episode.getStDate(), "start"), converterDate(episode.getEnDate(), "end"))
                         )
         );

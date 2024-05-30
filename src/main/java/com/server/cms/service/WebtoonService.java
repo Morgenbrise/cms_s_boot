@@ -1,17 +1,13 @@
 package com.server.cms.service;
 
-import com.server.cms.data.request.wevtoon.QTqEpisodeData;
 import com.server.cms.data.request.wevtoon.QTqWebtoonPostData;
 import com.server.cms.data.request.wevtoon.QWebtoonData.Modify;
 import com.server.cms.data.request.wevtoon.QWebtoonData.Search;
 import com.server.cms.data.response.webtoon.SCpWebtoon;
-import com.server.cms.data.response.webtoon.SEpisode;
 import com.server.cms.domain.Contract;
 import com.server.cms.domain.CpUser;
 import com.server.cms.domain.webtoon.TqWebtoon;
-import com.server.cms.domain.webtoon.TqWebtoonEpisode;
 import com.server.cms.domain.webtoon.Webtoon;
-import com.server.cms.framework.common.CustomPageRequest;
 import com.server.cms.framework.common.ResponsePageDTO;
 import com.server.cms.framework.common.Unique;
 import com.server.cms.framework.error.ContentNotFoundException;
@@ -20,14 +16,11 @@ import com.server.cms.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static com.server.cms.config.security.SecurityUtils.currentUserInd;
+import static com.server.cms.config.security.SecurityUtils.currentCompanyCode;
 import static com.server.cms.framework.date.LocalDateUtil.getConvertDateTimeToString;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -41,35 +34,35 @@ public class WebtoonService {
     private final TqWebtoonRepository tqWebtoonRepository;
     private final ContractRepository contractRepository;
 
-    public ResponsePageDTO findByWebtoons(Long userInd, Search param) {
-        if(userInd == null) {
+    public ResponsePageDTO findByWebtoons(String companyCode, Search param) {
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
-        return webtoonRepository.findByWebtoons(userInd, param);
+        return webtoonRepository.findByWebtoons(companyCode, param);
     }
 
-    public ResponsePageDTO findByCpWebtoons(Long userInd, Search param) {
-        if(userInd == null) {
+    public ResponsePageDTO findByCpWebtoons(String companyCode, Search param) {
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
-        return tqWebtoonRepository.findByCpWebtoons(userInd, param);
+        return tqWebtoonRepository.findByCpWebtoons(companyCode, param);
     }
 
     public SCpWebtoon.Item findByCpWebtoon(String bookCode) {
-        Long userInd = currentUserInd();
+        String companyCode = currentCompanyCode();
 
-        TqWebtoon webtoon = tqWebtoonRepository.findByCpWebtoon(userInd, bookCode);
+        TqWebtoon webtoon = tqWebtoonRepository.findByCpWebtoon(companyCode, bookCode);
         return SCpWebtoon.Item.form(bookCode, webtoon);
     }
 
     public SCpWebtoon.Item saveCpWebtoon(QTqWebtoonPostData.Save param) {
-        Long userInd = currentUserInd();
-        Optional<CpUser> optional = userRepository.findById(userInd);
+        String companyCode = currentCompanyCode();
+        Optional<CpUser> optional = userRepository.findByUserCompanyCode(companyCode);
         CpUser user = optional.orElseThrow(() -> new UserNotFoundException());
 
-        String bookNum = "W_" + userInd + Unique.UniqueNumber();
+        String bookNum = "W_" + user.getInd() + Unique.UniqueNumber();
         TqWebtoon tempWebtoon = TqWebtoon.create(param);
         // TODO 이미지 등록 로직 필요
         TqWebtoon save = tqWebtoonRepository.save(tempWebtoon);
@@ -115,8 +108,6 @@ public class WebtoonService {
         Webtoon webtoon = optional.orElseThrow(() -> new ContentNotFoundException("작품 정보가 존재하지 않습니다."));
 
     }
-
-
 
     private void requiredBookCode(String bookCode) {
         if(isEmpty(bookCode)) {

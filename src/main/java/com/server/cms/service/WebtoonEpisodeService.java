@@ -33,7 +33,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.server.cms.config.security.SecurityUtils.currentUserInd;
+import static com.server.cms.config.security.SecurityUtils.currentCompanyCode;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Slf4j
@@ -52,23 +52,23 @@ public class WebtoonEpisodeService {
     private String IMG_FILE_DIR;
 
     public ResponsePageDTO findByWebtoonEpisodes(QTqEpisodeData.Search param) {
-        Long userInd = currentUserInd();
-        if(userInd == null) {
+        String companyCode = currentCompanyCode();
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
         requiredBookCode(param.getBookCode());
 
-        return tqWebtoonEpisodeRepository.findByWebtoonEpisodes(userInd, param);
+        return tqWebtoonEpisodeRepository.findByWebtoonEpisodes(companyCode, param);
     }
 
     public ResponsePageDTO findByEpisodes(QTqEpisodeData.Search param) {
-        Long userInd = currentUserInd();
-        if(userInd == null) {
+        String companyCode = currentCompanyCode();
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
-        return tqWebtoonEpisodeRepository.findByEpisodes(userInd, param);
+        return tqWebtoonEpisodeRepository.findByEpisodes(companyCode, param);
     }
 
     public SEpisode.Item cpEpisodeSave(QTqEpisodePostData.Save param, MultipartFile imageFile, MultipartFile manuscriptMultipartFile) {

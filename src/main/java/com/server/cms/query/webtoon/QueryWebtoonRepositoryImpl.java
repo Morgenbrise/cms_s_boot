@@ -26,8 +26,8 @@ public class QueryWebtoonRepositoryImpl extends OracleQueryDSLRepositorySupport 
     }
 
     @Override
-    public ResponsePageDTO findByWebtoons(Long cpInd, QWebtoonData.Search param) {
-        if(cpInd == null) {
+    public ResponsePageDTO findByWebtoons(String companyCode, QWebtoonData.Search param) {
+        if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
 
@@ -40,7 +40,7 @@ public class QueryWebtoonRepositoryImpl extends OracleQueryDSLRepositorySupport 
                                 .join(webtoon, contract.webtoon)
                                 .fetchJoin()
                                 .where(
-                                        contract.cpUser.ind.eq(cpInd)
+                                        contract.cpUser.companyCode.eq(companyCode)
 //                           likeTitle(null)
                                 )
         );

@@ -9,7 +9,7 @@ import java.util.Collection;
 @Getter
 public class JwtAuthentication implements Authentication {
 
-    private Long seq;
+    private String companyCode;
 
     private String userId;
 
@@ -17,8 +17,8 @@ public class JwtAuthentication implements Authentication {
 
     private boolean isAuthenticated;
 
-    public JwtAuthentication(Long seq, String userId, String userName) {
-        this.seq = seq;
+    public JwtAuthentication(String companyCode, String userId, String userName) {
+        this.companyCode = companyCode;
         this.userId = userId;
         this.userName = userName;
         this.isAuthenticated = true;
