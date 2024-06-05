@@ -1,4 +1,4 @@
-package com.server.cms.repository;
+package com.server.cms.repository.file;
 
 import com.server.cms.domain.manuscript.InspectManuscript;
 import org.springframework.data.jpa.repository.JpaRepository;

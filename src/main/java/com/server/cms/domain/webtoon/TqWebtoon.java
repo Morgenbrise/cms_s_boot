@@ -1,6 +1,7 @@
 package com.server.cms.domain.webtoon;
 
 import com.server.cms.data.request.wevtoon.QTqWebtoonPostData;
+import com.server.cms.domain.thumbnail.CpThumbnail;
 import com.server.cms.framework.converter.EnumConverter;
 import com.server.cms.type.TqContentStatusType;
 import com.server.cms.type.YnType;
@@ -60,6 +61,9 @@ public class TqWebtoon {
     @Column(name = "YN_SHOW")
     @Convert(converter = EnumConverter.YnEnum.class)
     private YnType showYn;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tqWebtoon")
+    private List<CpThumbnail> thumbnails;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tqWebtoon")
     private List<TqWebtoonEpisode> episode = new ArrayList<>();

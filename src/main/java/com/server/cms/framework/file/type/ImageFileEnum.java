@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum ImageFileEnum implements ImageType {
 
+    WEBTOON("EPISODE", 100, 100, 1024),
     WEBTOON_EPISODE("EPISODE", 100, 100, 1024);
 
     private final String type;

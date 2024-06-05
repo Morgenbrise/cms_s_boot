@@ -1,4 +1,4 @@
-package com.server.cms.repository;
+package com.server.cms.repository.webtoon;
 
 import com.server.cms.domain.webtoon.Webtoon;
 import com.server.cms.query.webtoon.QueryWebtoonRepository;

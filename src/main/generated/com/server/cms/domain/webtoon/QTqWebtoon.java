@@ -40,6 +40,8 @@ public class QTqWebtoon extends EntityPathBase<TqWebtoon> {
 
     public final EnumPath<com.server.cms.type.TqContentStatusType> status = createEnum("status", com.server.cms.type.TqContentStatusType.class);
 
+    public final ListPath<com.server.cms.domain.thumbnail.CpThumbnail, com.server.cms.domain.thumbnail.QCpThumbnail> thumbnails = this.<com.server.cms.domain.thumbnail.CpThumbnail, com.server.cms.domain.thumbnail.QCpThumbnail>createList("thumbnails", com.server.cms.domain.thumbnail.CpThumbnail.class, com.server.cms.domain.thumbnail.QCpThumbnail.class, PathInits.DIRECT2);
+
     public final StringPath title = createString("title");
 
     public QTqWebtoon(String variable) {

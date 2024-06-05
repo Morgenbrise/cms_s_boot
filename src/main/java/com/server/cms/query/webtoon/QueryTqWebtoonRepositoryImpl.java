@@ -4,6 +4,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.server.cms.config.querydsl.proxy.OracleQueryDSLRepositorySupport;
 import com.server.cms.data.request.wevtoon.QWebtoonData;
+import com.server.cms.domain.thumbnail.CpThumbnail;
+import com.server.cms.domain.thumbnail.QCpThumbnail;
 import com.server.cms.domain.webtoon.QTqWebtoon;
 import com.server.cms.domain.webtoon.TqWebtoon;
 import com.server.cms.framework.common.CustomPageRequest;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 
 import static com.querydsl.core.types.dsl.Expressions.stringTemplate;
 import static com.server.cms.domain.QContract.contract;
+import static com.server.cms.domain.thumbnail.QCpThumbnail.cpThumbnail;
 import static com.server.cms.domain.webtoon.QTqWebtoon.tqWebtoon;
 import static com.server.cms.domain.webtoon.QWebtoon.webtoon;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;

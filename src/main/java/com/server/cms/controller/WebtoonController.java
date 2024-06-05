@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.server.cms.config.response.ApiResult.OK;
 
@@ -32,8 +33,9 @@ public class WebtoonController {
     private final WebtoonEpisodeService episodeService;
 
     @PostMapping(path = "/api/sv/cp/webtoon")
-    public ApiResult saveHisWebtoon(@Valid @RequestPart QTqWebtoonPostData.Save param) {
-        SCpWebtoon.Item item = webtoonService.saveCpWebtoon(param);
+    public ApiResult saveHisWebtoon(@Valid @RequestPart QTqWebtoonPostData.Save param
+                                    , @RequestPart(value = "THUMBNAIL", required = false) MultipartFile thumbnail) {
+        SCpWebtoon.Item item = webtoonService.saveCpWebtoon(param, thumbnail);
         return OK(item);
     }
 
