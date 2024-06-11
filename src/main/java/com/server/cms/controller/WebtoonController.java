@@ -32,13 +32,15 @@ public class WebtoonController {
     private final WebtoonService webtoonService;
     private final WebtoonEpisodeService episodeService;
 
+    @Operation(summary = "웹툰 등록", description = "CP사에서 웹툰을 등록합니다.")
     @PostMapping(path = "/api/sv/cp/webtoon")
-    public ApiResult saveHisWebtoon(@Valid @RequestPart QTqWebtoonPostData.Save param
+    public ApiResult saveCpWebtoon(@Valid @RequestPart QTqWebtoonPostData.Save param
                                     , @RequestPart(value = "THUMBNAIL", required = false) MultipartFile thumbnail) {
         SCpWebtoon.Item item = webtoonService.saveCpWebtoon(param, thumbnail);
         return OK(item);
     }
 
+    @Operation(summary = "웹툰 정보", description = "CP에 등록한 웹툰 정보를 보여 줍니다.")
     @GetMapping(path = "/api/cp/webtoons")
     public ApiResult getCpWebtoons(@QueryParam QWebtoonData.Search param) {
         String companyCode = SecurityUtils.currentCompanyCode();
@@ -53,6 +55,7 @@ public class WebtoonController {
         return OK(webtoons);
     }
 
+    @Operation(summary = "웹툰 정보", description = "CP에 등록한 웹툰 정보를 보여 줍니다.")
     @GetMapping(path = "/api/cp/webtoon")
     public ApiResult getCpWeboonInfo(@QueryParam QTqEpisodeData.Search param) {
         if(StringUtils.isBlank(param.getBookCode())) {
@@ -62,6 +65,7 @@ public class WebtoonController {
         return OK(episodes);
     }
 
+    @Operation(summary = "웹툰 정보 수정", description = "CP에 등록한 웹툰 정보를 수정합니다.")
     @PatchMapping(path = "/api/mv/cp/webtoon")
     public ApiResult modifyCpWebtoon(@Valid @RequestBody QTqWebtoonPostData.Modify param) {
         SCpWebtoon.Item item = webtoonService.modifyCpWebtoon(param);
