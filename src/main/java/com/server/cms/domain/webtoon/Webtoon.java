@@ -1,6 +1,6 @@
 package com.server.cms.domain.webtoon;
 
-import com.server.cms.data.request.wevtoon.QWebtoonData;
+import com.server.cms.data.request.wevtoon.ReqWebtoonData;
 import com.server.cms.framework.converter.EnumConverter;
 import com.server.cms.framework.converter.EnumConverter.YnEnum;
 import com.server.cms.type.ContentStatusType;
@@ -86,7 +86,7 @@ public class Webtoon {
                             , entity.getCloseDt(), entity.getAdultYn());
     }
 
-    public void update(QWebtoonData.Modify param) {
+    public void update(ReqWebtoonData.Modify param) {
         checkArgument(isNotEmpty(param.getTitle()), "작품명은 필수 입력 항목입니다.");
         checkArgument(isNotEmpty(param.getRemark()), "작품 소개는 필수 입력 항목입니다.");
 //        checkArgument(isNotEmpty(), "장르는 필수 입력 항목입니다.");

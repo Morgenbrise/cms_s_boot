@@ -1,8 +1,8 @@
 package com.server.cms.service;
 
-import com.server.cms.data.request.wevtoon.QTqEpisodeData;
-import com.server.cms.data.request.wevtoon.QTqEpisodePostData;
-import com.server.cms.data.response.webtoon.SEpisode;
+import com.server.cms.data.request.wevtoon.ReqTqEpisodeData;
+import com.server.cms.data.request.wevtoon.ReqTqEpisodePostData;
+import com.server.cms.data.response.webtoon.ResEpisode;
 import com.server.cms.domain.manuscript.InspectManuscript;
 import com.server.cms.domain.webtoon.TqWebtoon;
 import com.server.cms.domain.webtoon.TqWebtoonEpisode;
@@ -51,7 +51,7 @@ public class WebtoonEpisodeService {
     @Value("${directory.content.img}")
     private String IMG_FILE_DIR;
 
-    public ResponsePageDTO findByWebtoonEpisodes(QTqEpisodeData.Search param) {
+    public ResponsePageDTO findByWebtoonEpisodes(ReqTqEpisodeData.Search param) {
         String companyCode = currentCompanyCode();
         if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
@@ -62,7 +62,7 @@ public class WebtoonEpisodeService {
         return tqWebtoonEpisodeRepository.findByWebtoonEpisodes(companyCode, param);
     }
 
-    public ResponsePageDTO findByEpisodes(QTqEpisodeData.Search param) {
+    public ResponsePageDTO findByEpisodes(ReqTqEpisodeData.Search param) {
         String companyCode = currentCompanyCode();
         if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
@@ -71,7 +71,7 @@ public class WebtoonEpisodeService {
         return tqWebtoonEpisodeRepository.findByEpisodes(companyCode, param);
     }
 
-    public SEpisode.Item cpEpisodeSave(QTqEpisodePostData.Save param, MultipartFile imageFile, MultipartFile manuscriptMultipartFile) {
+    public ResEpisode.Item cpEpisodeSave(ReqTqEpisodePostData.Save param, MultipartFile imageFile, MultipartFile manuscriptMultipartFile) {
         log.info("CP_EPISODE_SAVE_PARAM : {}", param.toString());
         String bookCode = param.getBookCode();
         requiredBookCode(bookCode);
@@ -103,16 +103,16 @@ public class WebtoonEpisodeService {
             InspectManuscript tempManuscript = InspectManuscript.create(build, save);
             inspectManuscriptRepository.save(tempManuscript);
         }
-        return SEpisode.Item.create(save);
+        return ResEpisode.Item.create(save);
     }
 
-    public SEpisode.Info findByCpEpisodeInfo(String episodeCode) {
+    public ResEpisode.Info findByCpEpisodeInfo(String episodeCode) {
         requiredBookCode(episodeCode);
 
         Optional<TqWebtoonEpisode> optional = tqWebtoonEpisodeRepository.findByEpisode(episodeCode);
         TqWebtoonEpisode episode = optional.orElseThrow(() -> new ContentNotFoundException("존재하지 않는 회차번호 입니다."));
 
-        return SEpisode.Info.form(episode);
+        return ResEpisode.Info.form(episode);
     }
 
     private void requiredBookCode(String bookCode) {

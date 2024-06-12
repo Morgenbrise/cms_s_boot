@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class SUser {
+public class ResUser {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)

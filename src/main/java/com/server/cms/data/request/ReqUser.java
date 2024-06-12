@@ -1,5 +1,5 @@
 package com.server.cms.data.request;
 
-public class QUser {
+public class ReqUser {
 
 }

@@ -1,9 +1,9 @@
 package com.server.cms.service;
 
-import com.server.cms.data.request.wevtoon.QTqWebtoonPostData;
-import com.server.cms.data.request.wevtoon.QWebtoonData.Modify;
-import com.server.cms.data.request.wevtoon.QWebtoonData.Search;
-import com.server.cms.data.response.webtoon.SCpWebtoon;
+import com.server.cms.data.request.wevtoon.ReqTqWebtoonPostData;
+import com.server.cms.data.request.wevtoon.ReqWebtoonData.Modify;
+import com.server.cms.data.request.wevtoon.ReqWebtoonData.Search;
+import com.server.cms.data.response.webtoon.ResCpWebtoon;
 import com.server.cms.domain.Contract;
 import com.server.cms.domain.CpUser;
 import com.server.cms.domain.thumbnail.CpThumbnail;
@@ -65,14 +65,14 @@ public class WebtoonService {
         return tqWebtoonRepository.findByCpWebtoons(companyCode, param);
     }
 
-    public SCpWebtoon.Item findByCpWebtoon(String bookCode) {
+    public ResCpWebtoon.Item findByCpWebtoon(String bookCode) {
         String companyCode = currentCompanyCode();
 
         TqWebtoon webtoon = tqWebtoonRepository.findByCpWebtoon(companyCode, bookCode);
-        return SCpWebtoon.Item.form(bookCode, webtoon);
+        return ResCpWebtoon.Item.form(bookCode, webtoon);
     }
 
-    public SCpWebtoon.Item saveCpWebtoon(QTqWebtoonPostData.Save param, MultipartFile thumbnail) {
+    public ResCpWebtoon.Item saveCpWebtoon(ReqTqWebtoonPostData.Save param, MultipartFile thumbnail) {
         String companyCode = currentCompanyCode();
         log.info("CP_SAVE_USER : {}", companyCode);
 
@@ -103,21 +103,21 @@ public class WebtoonService {
         Contract contract = contractRepository.save(tempContract);
         log.info("CP_SAVE_WEBTOON[{}] : BOOK_CODE ---> {}, FILE ---> {}", companyCode, bookCode, fileData.toString());
 
-        return SCpWebtoon.Item.form(contract.getBookCode(), save);
+        return ResCpWebtoon.Item.form(contract.getBookCode(), save);
     }
 
-    public SCpWebtoon.Item saveWebtoon(String bookNum) {
+    public ResCpWebtoon.Item saveWebtoon(String bookNum) {
         requiredBookCode(bookNum);
 
         TqWebtoon tqWebtoon = tqWebtoonRepository.findByCpWebtoon(bookNum);
         Webtoon webtoon = webtoonRepository.save(Webtoon.create(tqWebtoon));
 
-        return SCpWebtoon.Item.form(bookNum, webtoon);
+        return ResCpWebtoon.Item.form(bookNum, webtoon);
     }
 
 
 
-    public SCpWebtoon.Item modifyCpWebtoon(QTqWebtoonPostData.Modify param) {
+    public ResCpWebtoon.Item modifyCpWebtoon(ReqTqWebtoonPostData.Modify param) {
         String bookCode = param.getBookCode();
         requiredBookCode(bookCode);
 
@@ -125,7 +125,7 @@ public class WebtoonService {
         Webtoon webtoon = webtoonRepository.findByWebtoon(bookCode);
 
         tqWebtoon.update(param, webtoon);
-        return SCpWebtoon.Item.form(bookCode, tqWebtoon);
+        return ResCpWebtoon.Item.form(bookCode, tqWebtoon);
     }
 
     public void modifyWebtoon(Modify param) {

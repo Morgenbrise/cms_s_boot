@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class QTqEpisodeData {
+public class ReqTqEpisodeData {
 
     @Getter
     public static class Search extends PageDTO {

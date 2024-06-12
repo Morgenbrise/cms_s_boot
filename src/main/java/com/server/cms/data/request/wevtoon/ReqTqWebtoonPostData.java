@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
-public class QTqWebtoonPostData {
+public class ReqTqWebtoonPostData {
 
     @Getter
     private static class Base {

@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class QLogin {
+public class ReqLogin {
 
     @Getter
     public static class Login {

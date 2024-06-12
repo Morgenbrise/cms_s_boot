@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import static com.server.cms.framework.date.LocalDateUtil.getConvertDateTimeToString;
 
-public class SWebtoon {
+public class ResWebtoon {
 
     @Schema(description = "웹툰 리스트 정보")
     public static class Item {

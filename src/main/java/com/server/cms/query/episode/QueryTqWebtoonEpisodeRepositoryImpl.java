@@ -1,9 +1,9 @@
 package com.server.cms.query.episode;
 
 import com.server.cms.config.querydsl.proxy.OracleQueryDSLRepositorySupport;
-import com.server.cms.data.request.wevtoon.QTqEpisodeData;
-import com.server.cms.data.response.webtoon.QSEpisode_Item;
-import com.server.cms.data.response.webtoon.QSEpisode_WebtoonEpisodeItem;
+import com.server.cms.data.request.wevtoon.ReqTqEpisodeData;
+import com.server.cms.data.response.webtoon.QResEpisode_Item;
+import com.server.cms.data.response.webtoon.QResEpisode_WebtoonEpisodeItem;
 import com.server.cms.domain.webtoon.TqWebtoonEpisode;
 import com.server.cms.framework.common.CustomPageRequest;
 import com.server.cms.framework.common.ResponsePageDTO;
@@ -28,7 +28,7 @@ public class QueryTqWebtoonEpisodeRepositoryImpl extends OracleQueryDSLRepositor
     }
 
     @Override
-    public ResponsePageDTO findByWebtoonEpisodes(String companyCode, QTqEpisodeData.Search episode) {
+    public ResponsePageDTO findByWebtoonEpisodes(String companyCode, ReqTqEpisodeData.Search episode) {
         if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
@@ -40,7 +40,7 @@ public class QueryTqWebtoonEpisodeRepositoryImpl extends OracleQueryDSLRepositor
         PageRequest pageable = CustomPageRequest.form(episode.getPage(), episode.getOffset()).of();
 
         Page<Object> page = applyPagination(pageable, query ->
-                query.select(new QSEpisode_WebtoonEpisodeItem(
+                query.select(new QResEpisode_WebtoonEpisodeItem(
                                 tqWebtoonEpisode.episodeCode
                                 , tqWebtoonEpisode.title
                                 , tqWebtoonEpisode.episodeNum
@@ -64,7 +64,7 @@ public class QueryTqWebtoonEpisodeRepositoryImpl extends OracleQueryDSLRepositor
     }
 
     @Override
-    public ResponsePageDTO findByEpisodes(String companyCode,QTqEpisodeData.Search episode) {
+    public ResponsePageDTO findByEpisodes(String companyCode, ReqTqEpisodeData.Search episode) {
         if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
@@ -72,7 +72,7 @@ public class QueryTqWebtoonEpisodeRepositoryImpl extends OracleQueryDSLRepositor
         PageRequest pageable = CustomPageRequest.form(episode.getPage(), episode.getOffset()).of();
 
         Page<Object> page = applyPagination(pageable, query ->
-                query.select(new QSEpisode_Item(
+                query.select(new QResEpisode_Item(
                                 tqWebtoonEpisode.episodeCode
                                 , tqWebtoon.title
                                 , tqWebtoonEpisode.title

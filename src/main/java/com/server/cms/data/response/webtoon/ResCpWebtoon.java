@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import static com.server.cms.framework.date.LocalDateUtil.getConvertDateTimeToString;
 
-public class SCpWebtoon {
+public class ResCpWebtoon {
 
     @AllArgsConstructor
     @Schema(description = "웹툰 정보")

@@ -1,11 +1,10 @@
 package com.server.cms.domain.webtoon;
 
-import com.server.cms.data.request.wevtoon.QTqEpisodePostData;
+import com.server.cms.data.request.wevtoon.ReqTqEpisodePostData;
 import com.server.cms.domain.manuscript.InspectManuscript;
 import com.server.cms.domain.manuscript.Manuscript;
 import com.server.cms.exception.FileData;
 import com.server.cms.framework.common.BaseTimeEntity;
-import com.server.cms.framework.common.CodeMapperValue;
 import com.server.cms.framework.converter.EnumConverter;
 import com.server.cms.framework.date.LocalDateUtil;
 import com.server.cms.type.EpisodeType;
@@ -102,7 +101,7 @@ public class TqWebtoonEpisode extends BaseTimeEntity {
         this.useYn = YnType.Y;
     }
 
-    public static TqWebtoonEpisode create(String episodeCode, QTqEpisodePostData.Save param, TqWebtoon entity, FileData fileData) {
+    public static TqWebtoonEpisode create(String episodeCode, ReqTqEpisodePostData.Save param, TqWebtoon entity, FileData fileData) {
         return new TqWebtoonEpisode(episodeCode, param.getTitle(), param.getEpisodeNum(), param.getOrder()
                                     , param.getPrice(), param.getEpisodeType(), fileData.getPath()
                                     , fileData.getFileName(), param.getOpenDate(), entity);

@@ -1,6 +1,6 @@
 package com.server.cms.domain.webtoon;
 
-import com.server.cms.data.request.wevtoon.QTqWebtoonPostData;
+import com.server.cms.data.request.wevtoon.ReqTqWebtoonPostData;
 import com.server.cms.domain.thumbnail.CpThumbnail;
 import com.server.cms.framework.converter.EnumConverter;
 import com.server.cms.type.TqContentStatusType;
@@ -87,12 +87,12 @@ public class TqWebtoon {
         this.showYn = YnType.Y;
     }
 
-    public static TqWebtoon create(QTqWebtoonPostData.Save param) {
+    public static TqWebtoon create(ReqTqWebtoonPostData.Save param) {
         return new TqWebtoon(param.getTitle(), param.getRemark(), null
                     , param.getAuthor(), param.getOpenDt(), param.getCloseDd(), param.getAdultYn());
     }
 
-    public void update(QTqWebtoonPostData.Modify param, Webtoon entity) {
+    public void update(ReqTqWebtoonPostData.Modify param, Webtoon entity) {
         checkArgument(isNotEmpty(param.getTitle()), "작품명은 필수 입력항목입니다.");
         checkArgument(isNotEmpty(param.getAuthor()), "작가명은 필수 입력 항목입니다.");
         checkArgument(isNotEmpty(param.getOpenDt()), "오픈일자는 필수 입력 항목입니다.");

@@ -1,8 +1,8 @@
 package com.server.cms.controller;
 
 import com.server.cms.config.response.ApiResult;
-import com.server.cms.data.request.wevtoon.QTqEpisodePostData;
-import com.server.cms.data.response.webtoon.SEpisode;
+import com.server.cms.data.request.wevtoon.ReqTqEpisodePostData;
+import com.server.cms.data.response.webtoon.ResEpisode;
 import com.server.cms.framework.error.ContentNotFoundException;
 import com.server.cms.service.WebtoonEpisodeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,14 +26,14 @@ public class WebtoonEpisodeController {
 
     @Operation(summary = "웹툰 회차 등록", description = "CP사 웹툰 회차를 등록합니다.")
     @PostMapping(path = "/api/cp/reg/webtoon/episode", consumes = {MediaType.APPLICATION_JSON_VALUE, "multipart/form-data"})
-    public ApiResult saveCpEpisode(@RequestPart(value = "PARAM") QTqEpisodePostData.Save param
+    public ApiResult saveCpEpisode(@RequestPart(value = "PARAM") ReqTqEpisodePostData.Save param
                                 , @RequestPart(value = "THUMBNAIL", required = false) MultipartFile thumbnail
                                 , @RequestPart(value = "MANUSCRIPT", required = false) MultipartFile manuscript) {
         log.info("PARAM : {}", param.toString());
         log.info("THUMBNAIL : {}", thumbnail.getOriginalFilename());
         log.info("MANUSCRIPT : {}", manuscript.getOriginalFilename());
 
-        SEpisode.Item item = episodeService.cpEpisodeSave(param, thumbnail, manuscript);
+        ResEpisode.Item item = episodeService.cpEpisodeSave(param, thumbnail, manuscript);
         log.info("EPISODE_SAVE_INFO : {}", item.toString());
         return OK(item);
     }
@@ -46,7 +46,7 @@ public class WebtoonEpisodeController {
             throw new ContentNotFoundException("도서코드가 존재하지 않습니다.");
         }
 
-        SEpisode.Info info = episodeService.findByCpEpisodeInfo(episodeCode);
+        ResEpisode.Info info = episodeService.findByCpEpisodeInfo(episodeCode);
         log.info("EPISODE_INFO : {}", info.toString());
         return OK(info);
     }

@@ -2,9 +2,8 @@ package com.server.cms.query.webtoon;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.server.cms.config.querydsl.proxy.OracleQueryDSLRepositorySupport;
-import com.server.cms.data.request.wevtoon.QWebtoonData;
-//import com.server.cms.data.response.QSWebtoon_Item;
-import com.server.cms.data.response.webtoon.QSWebtoon_Item;
+import com.server.cms.data.request.wevtoon.ReqWebtoonData;
+import com.server.cms.data.response.webtoon.QResWebtoon_Item;
 import com.server.cms.domain.webtoon.Webtoon;
 import com.server.cms.framework.common.CustomPageRequest;
 import com.server.cms.framework.common.ResponsePageDTO;
@@ -26,7 +25,7 @@ public class QueryWebtoonRepositoryImpl extends OracleQueryDSLRepositorySupport 
     }
 
     @Override
-    public ResponsePageDTO findByWebtoons(String companyCode, QWebtoonData.Search param) {
+    public ResponsePageDTO findByWebtoons(String companyCode, ReqWebtoonData.Search param) {
         if(StringUtils.isEmpty(companyCode)) {
             throw new UserNotFoundException();
         }
@@ -35,7 +34,7 @@ public class QueryWebtoonRepositoryImpl extends OracleQueryDSLRepositorySupport 
         PageRequest pageable = CustomPageRequest.form(param.getPage(), param.getOffset()).of();
         Page<Webtoon> page = applyPagination(pageable, query ->
                         query
-                                .select(new QSWebtoon_Item(webtoon))
+                                .select(new QResWebtoon_Item(webtoon))
                                 .from(webtoon)
                                 .join(webtoon, contract.webtoon)
                                 .fetchJoin()

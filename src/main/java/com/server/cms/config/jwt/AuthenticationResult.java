@@ -1,6 +1,6 @@
 package com.server.cms.config.jwt;
 
-import com.server.cms.data.response.SUser;
+import com.server.cms.data.response.ResUser;
 import lombok.Getter;
 
 @Getter
@@ -16,7 +16,7 @@ public class AuthenticationResult {
 
     private final String email;
 
-    public AuthenticationResult(String apiToken, SUser.Read user) {
+    public AuthenticationResult(String apiToken, ResUser.Read user) {
         this.apiToken = apiToken;
         this.companyCode = user.getCompanyCode();
         this.userId = user.getId();

@@ -8,7 +8,7 @@ import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class QTqEpisodePostData {
+public class ReqTqEpisodePostData {
 
     @Getter
     public static class Save {
