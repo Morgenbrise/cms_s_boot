@@ -1,5 +1,6 @@
 package com.server.cms.domain.support;
 
+import com.server.cms.framework.common.BaseTimeEntity;
 import com.server.cms.type.YnType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SequenceGenerator(name = "NOTI_SEQ_GENERATOR", sequenceName = "NOTI_SEQ", initialValue = 1, allocationSize = 2)
 @Getter
-public class Notification {
+public class Notification extends BaseTimeEntity {
 
     @Id
     @Column(name = "IND")
@@ -32,5 +33,7 @@ public class Notification {
 
     @Column(name = "YN_FIX")
     private YnType fixYn;
+
+
 
 }
