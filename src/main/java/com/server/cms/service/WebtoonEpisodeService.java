@@ -6,6 +6,7 @@ import com.server.cms.data.response.webtoon.ResEpisode;
 import com.server.cms.domain.manuscript.InspectManuscript;
 import com.server.cms.domain.webtoon.TqWebtoon;
 import com.server.cms.domain.webtoon.TqWebtoonEpisode;
+import com.server.cms.domain.webtoon.WebtoonEpisode;
 import com.server.cms.exception.FileData;
 import com.server.cms.framework.common.Base64Encoding;
 import com.server.cms.framework.common.FileUtil;
@@ -18,6 +19,7 @@ import com.server.cms.framework.file.type.ImageFileEnum;
 import com.server.cms.repository.file.InspectManuscriptRepository;
 import com.server.cms.repository.webtoon.TqWebtoonEpisodeRepository;
 import com.server.cms.repository.webtoon.TqWebtoonRepository;
+import com.server.cms.repository.webtoon.WebtoonEpisodeRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class WebtoonEpisodeService {
 
     private final TqWebtoonEpisodeRepository tqWebtoonEpisodeRepository;
+    private final WebtoonEpisodeRepository webtoonEpisodeRepository;
     private final TqWebtoonRepository tqWebtoonRepository;
     private final InspectManuscriptRepository inspectManuscriptRepository;
 
@@ -109,10 +112,17 @@ public class WebtoonEpisodeService {
     public ResEpisode.Info findByCpEpisodeInfo(String episodeCode) {
         requiredBookCode(episodeCode);
 
-        Optional<TqWebtoonEpisode> optional = tqWebtoonEpisodeRepository.findByEpisode(episodeCode);
-        TqWebtoonEpisode episode = optional.orElseThrow(() -> new ContentNotFoundException("존재하지 않는 회차번호 입니다."));
+        Optional<TqWebtoonEpisode> optionalCpEpisode = tqWebtoonEpisodeRepository.findByEpisode(episodeCode);
+        TqWebtoonEpisode cpEpisode = optionalCpEpisode.orElseThrow(() -> new ContentNotFoundException("존재하지 않는 회차번호 입니다."));
 
-        return ResEpisode.Info.form(episode);
+        Optional<WebtoonEpisode> optionalEpisode = webtoonEpisodeRepository.findByEpisode(episodeCode);
+        WebtoonEpisode episode = optionalEpisode.orElse(null);
+
+        ResEpisode.Info form = ResEpisode.Info.form(cpEpisode);
+        if(episode != null) {
+            form.setManuscript(episode.getManuscript());
+        }
+        return form;
     }
 
     private void requiredBookCode(String bookCode) {

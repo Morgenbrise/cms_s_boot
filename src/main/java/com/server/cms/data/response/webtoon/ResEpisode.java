@@ -141,7 +141,7 @@ public class ResEpisode {
 
         private List<String> inspect = new ArrayList<>();
 
-//        private List<String> manuscript = new ArrayList<>();
+        private List<String> manuscript = new ArrayList<>();
 
         public static Info form(TqWebtoonEpisode entity) {
             List<InspectManuscript> inspectManuscript = entity.getInspectManuscript();
@@ -151,15 +151,21 @@ public class ResEpisode {
                                                     .map(i -> i.getPath() + "/" + i.getImageNm())
                                                     .collect(Collectors.toList());
 
-//            List<String> strManuscript = manuscript.stream()
-//                                                    .map(i -> i.getPath() + "/" + i.getImageNm())
-//                                                    .collect(Collectors.toList());
-
             return new Info(entity.getEpisodeCode(), entity.getTitle(), entity.getEpisodeNum()
                         , entity.getOrder(), entity.getPrice(), entity.getEpisodeType().getVo(), (entity.getPath() + entity.getThumbnailName())
                         , LocalDateUtil.getConvertDateTimeToString(entity.getOpenDate())
-                        , entity.getUseYn().getVo(), entity.getStatus().getVo(), strInspectManuscript);
+                        , entity.getUseYn().getVo(), entity.getStatus().getVo(), strInspectManuscript, null);
 
+        }
+
+        public void setManuscript(List<Manuscript> manuscript) {
+            if(manuscript.size() <= 0) {
+                return;
+            }
+            List<String> strManuscript = manuscript.stream()
+                                        .map(i -> i.getPath() + "/" + i.getImageNm())
+                                        .collect(Collectors.toList());
+            this.manuscript = strManuscript;
         }
 
         @Override

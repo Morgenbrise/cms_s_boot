@@ -1,5 +1,6 @@
 package com.server.cms.domain.webtoon;
 
+import com.server.cms.domain.manuscript.Manuscript;
 import com.server.cms.framework.converter.EnumConverter.ContentStatusEnum;
 import com.server.cms.type.ContentStatusType;
 import com.server.cms.type.TqContentStatusType;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "TB_WEBTOON_EPISODE")
@@ -22,6 +24,9 @@ public class WebtoonEpisode {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "IND")
     private Long ind;
+
+    @Column(name = "ID_EPISODE")
+    private String episodeCode;
 
     @Column(name = "TITLE")
     private String title;
@@ -57,6 +62,9 @@ public class WebtoonEpisode {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IND_PARENT")
     private Webtoon webtoon;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "episode")
+    private List<Manuscript> manuscript;
 
     public static WebtoonEpisode create() {
         return new WebtoonEpisode();
