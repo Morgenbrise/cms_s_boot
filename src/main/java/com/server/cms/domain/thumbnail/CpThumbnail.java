@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "TB_THUMBNAIL")
+@Table(name = "TQ_THUMBNAIL")
 @SequenceGenerator(name = "TQ_THUMBNAIL_SEQ_GENERATOR", sequenceName = "TQ_THUMBNAIL_SEQ", initialValue = 1, allocationSize = 2)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CpThumbnail extends ThumbnailItem {

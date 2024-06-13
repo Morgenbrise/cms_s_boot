@@ -141,24 +141,24 @@ public class ResEpisode {
 
         private List<String> inspect = new ArrayList<>();
 
-        private List<String> manuscript = new ArrayList<>();
+//        private List<String> manuscript = new ArrayList<>();
 
         public static Info form(TqWebtoonEpisode entity) {
             List<InspectManuscript> inspectManuscript = entity.getInspectManuscript();
-            List<Manuscript> manuscript = entity.getManuscript();
+//            List<Manuscript> manuscript = entity.getManuscript();
 
             List<String> strInspectManuscript = inspectManuscript.stream()
                                                     .map(i -> i.getPath() + "/" + i.getImageNm())
                                                     .collect(Collectors.toList());
 
-            List<String> strManuscript = manuscript.stream()
-                                                    .map(i -> i.getPath() + "/" + i.getImageNm())
-                                                    .collect(Collectors.toList());
+//            List<String> strManuscript = manuscript.stream()
+//                                                    .map(i -> i.getPath() + "/" + i.getImageNm())
+//                                                    .collect(Collectors.toList());
 
             return new Info(entity.getEpisodeCode(), entity.getTitle(), entity.getEpisodeNum()
                         , entity.getOrder(), entity.getPrice(), entity.getEpisodeType().getVo(), (entity.getPath() + entity.getThumbnailName())
                         , LocalDateUtil.getConvertDateTimeToString(entity.getOpenDate())
-                        , entity.getUseYn().getVo(), entity.getStatus().getVo(), strInspectManuscript, strManuscript);
+                        , entity.getUseYn().getVo(), entity.getStatus().getVo(), strInspectManuscript);
 
         }
 
@@ -176,7 +176,7 @@ public class ResEpisode {
                     .append("USE_YN", useYn)
                     .append("STATUS", status)
                     .append("INSPECT", inspect.size())
-                    .append("MANUSCRIPT", manuscript.size())
+//                    .append("MANUSCRIPT", manuscript.size())
                     .toString();
         }
     }

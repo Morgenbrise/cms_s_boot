@@ -69,9 +69,6 @@ public class TqWebtoonEpisode extends BaseTimeEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "episode")
     private List<InspectManuscript> inspectManuscript;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "episode")
-    private List<Manuscript> manuscript;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IDX_TQ_WEBTOON")
     private TqWebtoon tqWebtoon;
